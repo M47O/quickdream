@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+/*
+  Josh's Custom CSS Reset
+  https://www.joshwcomeau.com/css/custom-css-reset/
+*/
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+html, body {
+  height: 100%;
+}
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+input, button, textarea, select {
+  font: inherit;
+}
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+#root, #__next {
+  isolation: isolate;
+}
+
+/* ________________________________________________________ */
+
+
+:root {
+  --color-primary: #F5ECEF;
+  --color-secondary: #3E00FF;
+  --color-tertiary: #E3CFE4;
+  --color-font-primary: #0E0E52;
+  --color-font-accent: #3E00FF;
+}
+
+/* ________________________________________________________ */
+body {
+  font-family: Inter, sans-serif;
+  background-color: var(--color-primary);
+  color: var(--color-font-primary)
+}
+
+main,header {
+  padding: 0 120px;
+
+}
+
+button {
+  all: unset;
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+  padding: 1em 2em;
+  border-radius: 8px;
+
+}
