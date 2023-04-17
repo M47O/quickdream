@@ -1,26 +1,30 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function AuthPage({ handleLogin }){
     const [isLogin, setIsLogin] = useState(true)
     const [username, setUsername] = useState('') 
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+    
+    const navigate = useNavigate()
 
     const login = () => {
-        fetch("http://localhost:4000/auth/login", {
-          method: "POST",
-          body: JSON.stringify({
-            username: username,
-            password: password
-          }),
-          headers: {
-            "Content-type": "application/json",
+      fetch("http://localhost:4000/auth/login", {
+        method: "POST",
+        body: JSON.stringify({
+          username: username,
+          password: password
+        }),
+        headers: {
+          "Content-type": "application/json",
           },
-          credentials: "include"
-        })
-        .then(response => response.json())
-        .then(data => handleLogin({username: data.username, id: data._id}))
-        .catch(error => console.error(error));
+        credentials: "include"
+      })
+      .then(response => response.json())
+      .then(data => handleLogin({username: data.username, id: data._id}))
+      .then(navigate("/"))
+      .catch(error => console.error(error));
       };
 
     const register = () => {

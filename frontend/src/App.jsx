@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import HomePage from './pages/HomePage'
 import AuthPage from './pages/AuthPage'
+import ProfilePage from './pages/ProfilePage'
 import Header from './components/Header'
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage user={user} />} />
           <Route path="/auth" element={<AuthPage user={user} handleLogin={handleLogin} />} />
+          <Route path="/profile" element={<ProfilePage user={user} />} />
         </Routes>
       </main>
     </>

@@ -19,11 +19,11 @@ export default function Header ({ user, handleLogout }){
             <img src={imgUrl} alt="Quickdream" />
             <nav>
                 <ul>
-                    {user && <li><span>Hello, {user.username}</span></li>}
+                    {user && <li><span>Hello, <Link to="/profile">{user.username}</Link></span></li>}
                     <li></li>
                     <li></li>
+                    {user ? <li><button onClick={logout}>Logout</button></li> : <li><Link to="auth">Log in / Sign up</Link></li>}
                 </ul>
-                {user ? <li><button onClick={logout}>Logout</button></li> : <li><Link to="auth">Log in / Sign up</Link></li>}
             </nav>
         </header>
     )

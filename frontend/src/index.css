@@ -58,7 +58,26 @@ button {
   all: unset;
   background-color: var(--color-secondary);
   color: var(--color-primary);
-  padding: 1em 2em;
+  padding: 12px;
   border-radius: 8px;
 
+}
+
+main {
+  padding-top: 75px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  width: 100%;
+  margin-bottom: 75px;
+}
+
+header ul {
+  display: flex;
+  list-style: none;
+  gap: 5px;
+  align-items: center;
 }
