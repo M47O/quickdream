@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@900&display=swap');
+
 
 /*
   Josh's Custom CSS Reset
@@ -35,49 +37,33 @@ p, h1, h2, h3, h4, h5, h6 {
 
 
 :root {
-  --color-primary: #F5ECEF;
-  --color-secondary: #3E00FF;
-  --color-tertiary: #E3CFE4;
+  --color-bg: #F5ECEF;
+  --color-primary: #3E00FF;
+  --color-secondary: #E3CFE4;
   --color-font-primary: #0E0E52;
   --color-font-accent: #3E00FF;
 }
 
 /* ________________________________________________________ */
+
 body {
   font-family: Inter, sans-serif;
-  background-color: var(--color-primary);
+  background-color: var(--color-bg);
   color: var(--color-font-primary)
 }
 
-main,header {
-  padding: 0 120px;
-
-}
-
-button {
-  all: unset;
-  background-color: var(--color-secondary);
-  color: var(--color-primary);
-  padding: 12px;
-  border-radius: 8px;
-
-}
-
 main {
-  padding-top: 75px;
+  padding-top: 120px;
 }
 
-header {
-  display: flex;
-  justify-content: space-between;
-  position: fixed;
-  width: 100%;
-  margin-bottom: 75px;
+.container {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
-header ul {
-  display: flex;
-  list-style: none;
-  gap: 5px;
-  align-items: center;
+@media screen and (max-width: 640px) {
+  .container{
+      padding: 0 15px
+    }
 }

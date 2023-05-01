@@ -1,0 +1,11 @@
+.post__form{
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    background: #F5ECEF;
+    padding: 60px 60px 30px 60px;
+
+    max-width: 420px;
+    box-shadow: 3px 3px hsl(340, 31%, 90%), 3px 3px 12px hsl(340, 31%, 92%), 3px 3px 16px hsl(340, 31%, 93%);
+    border-radius: 6px;
+}
