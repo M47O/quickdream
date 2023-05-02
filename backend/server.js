@@ -1,3 +1,4 @@
+require("dotenv").config({ path: "./config/.env" });
 const express = require("express")
 const app = express()
 const mongoose = require("mongoose")
@@ -9,8 +10,9 @@ const logger = require("morgan")
 const cors = require("cors")
 
 const authRoutes = require('./routes/auth')
+const postRoutes = require('./routes/post')
 
-require("dotenv").config({ path: "./config/.env" });
+
 
 connectDB()
 
@@ -39,6 +41,7 @@ require('./config/passport')(passport)
 
 // Routes // 
 app.use('/auth', authRoutes)
+app.use('/post', postRoutes)
 
 
 app.listen(process.env.PORT, console.log(`Server running on port ${process.env.PORT}`))
