@@ -1,5 +1,5 @@
 # Quickdream
-Clay Market is a full-stack MERN app created to explore the capabilities of AI image generation and OpenAI's public API in general. 
+Quickdream is a full-stack social media app created to explore the capabilities of AI image generation and OpenAI's public API in general. Users are able to enter a prompt and have an image generated based on that prompt. These images are then shared on the Quickdream platform, where users can follow each other, like and comment on images, and discover new and interesting prompts to try. 
 
 ⛔ **The app is currently being developed and isn't quite at the minimum viable product stage, but work is being done daily to get there.** 
 
