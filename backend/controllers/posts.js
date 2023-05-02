@@ -1,8 +1,8 @@
-// const cloudinary = require("../middleware/cloudinary");
 const Post = require("../models/Post");
 // const Comment = require("../models/Comment");
 const User = require("../models/User")
 const openai = require("../config/openai")
+const cloudinary = require("../config/cloudinary")
 
 
 module.exports.getPost = async (req, res) => {
@@ -26,16 +26,25 @@ module.exports.createPost = async (req, res) => {
         const generatedImage = await response.data.data[0].url
         console.log(generatedImage)
 
-        // const result = await cloudinary.uploader.upload()
+        const result = await cloudinary.uploader.upload(generatedImage, {
+            public_id: `posts/${req.user.username}/${req.body.title}`,
+            folder: 'posts',
+            overwrite: true,
+            resource_type: 'image',
+            format: 'webp'
+        })
 
-        // await Post.create({
-        //     title: req.body.title,
-        //     image: result.secure_url,
-        //     cloudinaryId: result.public_id,
-        //     caption: req.body.caption,
-        //     likes: 0,
-        //     user: req.user.id
-        // })
+        const post = await Post.create({
+            title: req.body.title,
+            prompt: req.body.caption,
+            image: result.secure_url,
+            cloudinaryId: result.public_id,
+            caption: req.body.caption,
+            likes: 0,
+            author: req.user._id
+        })
+        return res.json(post)
+
     } catch (err) {
         console.log(err)
     }

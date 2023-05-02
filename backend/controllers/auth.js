@@ -19,10 +19,11 @@ module.exports.login = (req, res, next) => {
         req.logIn(user, err => {
             if (err) {
                 console.error("Error during login:", err);
-                return res.status(500).json({ error: "Internal server error" });
+                res.status(500).json({ error: "Internal server error" })
+                return next(err);
             }
             console.log("Successfully authenticated:", req.user);
-            return res.json(req.user);
+            res.json(req.user);
         });
     })(req, res, next);
 }
