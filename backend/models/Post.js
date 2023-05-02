@@ -5,7 +5,7 @@ const post = new mongoose.Schema({
     image: String,
     cloudinaryId: String,
     likes: Number,
-    user: {
+    author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     },
