@@ -1,14 +1,8 @@
 const passport = require("passport");
 const User = require('../models/User')
 const bcrypt = require('bcryptjs')
-const cloudinary = require("cloudinary").v2
 const identicon = require("identicon")
-
-cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.CLOUD_API_KEY,
-    api_secret: process.env.CLOUD_API_SECRET
-})
+const cloudinary = require("../config/cloudinary")
 
 module.exports.login = (req, res, next) => {
     passport.authenticate("local", (err, user, info) => {
