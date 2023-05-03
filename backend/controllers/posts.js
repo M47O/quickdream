@@ -15,6 +15,15 @@ module.exports.getPost = async (req, res) => {
     }
 }
 
+module.exports.getMyPosts = async (req, res) => {
+    try {
+        const myPosts = await Post.find({ author: req.user._id }).sort({ createdAt: -1 })
+        res.json(myPosts)
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 module.exports.createPost = async (req, res) => {
     try {
         const response = await openai.createImage({
@@ -26,20 +35,40 @@ module.exports.createPost = async (req, res) => {
         const generatedImage = await response.data.data[0].url
         console.log(generatedImage)
 
+        let public_id = `${req.user.username}/${req.body.title}`
+        let idExists;
+        try {
+            idExists = await cloudinary.api.resource(`posts/${public_id}`);
+        } catch (err) {
+            idExists = false
+        }
+
+        let counter = 2;
+        while (idExists) {
+            // add suffix and check again
+            public_id = `${req.user.username}/${req.body.title}-${counter}`;
+            try {
+                idExists = await cloudinary.api.resource(`posts/${public_id}`);
+            } catch (err) {
+                idExists = false
+            }
+            counter++;
+        }
+
+
         const result = await cloudinary.uploader.upload(generatedImage, {
-            public_id: `posts/${req.user.username}/${req.body.title}`,
+            public_id,
             folder: 'posts',
-            overwrite: true,
+            overwrite: false,
             resource_type: 'image',
             format: 'webp'
         })
 
         const post = await Post.create({
             title: req.body.title,
-            prompt: req.body.caption,
+            prompt: req.body.prompt,
             image: result.secure_url,
             cloudinaryId: result.public_id,
-            caption: req.body.caption,
             likes: 0,
             author: req.user._id
         })
@@ -50,15 +79,15 @@ module.exports.createPost = async (req, res) => {
     }
 }
 
-// module.exports.deletePost = async (req, res) => {
-//     try {
-//         let post = await Post.findById({ _id: req.params.id })
-//         //Delete from cloudinary
-//         await cloudinary.uploader.destroy(post.cloudinaryId)
-//         //Delete from db
-//         await Post.remove({ _id: req.params.id })
-//         console.log("Deleted post")
-//     } catch (err) {
-//         console.log(err)
-//     }
-// }
+module.exports.deletePost = async (req, res) => {
+    try {
+        let post = await Post.findById({ _id: req.body.id })
+        //Delete from cloudinary
+        await cloudinary.uploader.destroy(post.cloudinaryId)
+        //Delete from db
+        await Post.remove({ _id: req.body.id })
+        console.log("Deleted post")
+    } catch (err) {
+        console.log(err)
+    }
+}
