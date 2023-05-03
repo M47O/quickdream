@@ -12,12 +12,18 @@ function App() {
   let [user, setUser] = useState(null)
 
   const getUser = useEffect(() => {
-    fetch("http://localhost:4000/auth/user", { credentials: "include" })
-      .then(res => res.json())
-      .then(data => {
-        setUser({ username: data.username, id: data._id, avatar: data.avatar })
-      })
-  }, [])
+    async function fetchData() {
+      try {
+        const response = await fetch("http://localhost:4000/auth/user", { credentials: "include" });
+        const data = await response.json();
+        setUser({ username: data.username, id: data._id, avatar: data.avatar });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   // console.log(user)
 

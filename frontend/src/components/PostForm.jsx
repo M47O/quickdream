@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useState } from 'react'
 import { TextField, Button } from '@mui/material'
+import { LoadingButton } from '@mui/lab'
 import './css/PostForm.css'
 
 
@@ -22,31 +23,41 @@ function getRandomPlaceholder() {
     return placeholderPrompts[Math.floor(Math.random() * placeholderPrompts.length)];
 }
 
-const validationCharacters = `"abcdefghijklmnopqrstuvwxyz1234567890 .!?'"`.split("")
+const validationCharacters = `"abcdefghijklmnopqrstuvwxyz1234567890 -.!?'",&`.split("")
 
-export default function PostForm({ user }) {
+export default function PostForm({ user, onCreatePost }) {
     const [title, setTitle] = useState('')
     const [prompt, setPrompt] = useState('')
     const [formErrors, setFormErrors] = useState([])
     const [placeholder, setPlaceholder] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         setPlaceholder(getRandomPlaceholder())
     }, [])
 
 
-    const createPost = () => {
-        fetch("http://localhost:4000/post/create", {
-            method: "POST",
-            body: JSON.stringify({
-                title: title,
-                prompt: prompt
-            }),
-            headers: {
-                "Content-type": "application/json",
-            },
-            credentials: "include"
-        })
+    const createPost = async () => {
+        try {
+            setIsLoading(true)
+            const response = await fetch("http://localhost:4000/post/create", {
+                method: "POST",
+                body: JSON.stringify({
+                    title: title,
+                    prompt: prompt
+                }),
+                headers: {
+                    "Content-type": "application/json",
+                },
+                credentials: "include"
+            })
+
+            const data = await response.json()
+            onCreatePost(data)
+            setIsLoading(false)
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     const handleClick = e => {
@@ -57,13 +68,13 @@ export default function PostForm({ user }) {
             errors.push("Title should be at least 3 characters long.")
         }
         if (title.split("").filter(char => !validationCharacters.includes(char.toLowerCase())).length) {
-            errors.push("Title should only include alphanumeric characters.")
+            errors.push("Title should only include alphanumeric and allowed characters (i.e.: A-z 0-9 . , ' \" ? ! & -).")
         }
         if (prompt.length < 3) {
             errors.push("Prompt should be at least 3 characters long.")
         }
         if (prompt.split("").filter(char => !validationCharacters.includes(char.toLowerCase())).length) {
-            errors.push("Prompt should only include alphanumeric characters.")
+            errors.push("Prompt should only include alphanumeric and allowed characters (i.e.: A-z 0-9 . , ' \" ? ! & -).")
         }
 
         if (errors.length) {
@@ -99,22 +110,20 @@ export default function PostForm({ user }) {
                 color="secondary"
                 multiline
                 autoFocus={true}
-                onChange={e => setTitle(e.target.value)}
+                onChange={e => setPrompt(e.target.value)}
                 helperText={formErrors.filter(error => error.includes("Prompt"))}
             />
-            <Button
+            <LoadingButton
+                sx={isLoading ? {} : { fontWeight: 'bold' }}
+                loading={isLoading}
+                loadingPosition="start"
                 size="large"
                 fontSize="inherit"
                 variant="contained"
                 onClick={(e) => handleClick()}
             >
-                Dream
-            </Button>
-            {/* <button onClick={(e) => {
-                    e.preventDefault()
-                    handleClick()
-                }}
-                >Create</button> */}
+                {isLoading ? "Dreaming" : "Dream"}
+            </LoadingButton>
         </form>
     )
 }

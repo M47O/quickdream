@@ -1,0 +1,19 @@
+.MuiDialog-paper{
+    background: var(--color-bg)
+}
+
+.dialog__image {
+    height: auto;
+    width: 312px;
+}
+
+.dialog__prompt {
+    margin-top: 10px;
+    max-width: 400px;
+}
+
+/* Small */
+@media screen and (max-width: 640px) {
+
+}
+  

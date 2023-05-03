@@ -4,3 +4,49 @@
     justify-content: space-between;
 
 }
+
+.myPosts {
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.postCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 3px 3px hsl(340, 31%, 90%), 3px 3px 12px hsl(340, 31%, 92%), 3px 3px 16px hsl(340, 31%, 93%);
+
+}
+
+.profile__left{
+    width: 50%;
+}
+
+.profile__right{
+    width:50%;
+}
+
+@media screen and (max-width: 640px) {
+    .profile {
+        flex-direction: column;
+    }
+
+    .profile__left {
+        width: 100%;
+    }
+
+    .profile__right {
+        width: 100%;
+    }
+
+    .myPosts{
+        
+    }
+
+    .postCard__image{
+        width: 140px;
+    }
+
+}
