@@ -4,17 +4,6 @@ const User = require("../models/User")
 const openai = require("../config/openai")
 const cloudinary = require("../config/cloudinary")
 
-
-module.exports.getPost = async (req, res) => {
-    try {
-        const post = await Post.findById(req.params.id)
-        // const comments = await Comment.find({ postId: req.params.id }).sort({ createdAt: "desc"})
-        res.json(post)
-    } catch (err) {
-        console.log(err)
-    }
-}
-
 module.exports.getMyPosts = async (req, res) => {
     try {
         const myPosts = await Post.find({ author: req.user._id }).sort({ createdAt: -1 })
@@ -23,6 +12,17 @@ module.exports.getMyPosts = async (req, res) => {
         console.log(err)
     }
 }
+
+module.exports.getPostsByUserId = async (req, res) => {
+    try {
+        const posts = await Post.find({ author: req.params.id }).sort({ createdAt: -1 });
+        res.json(posts);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error retrieving posts from database');
+    }
+}
+
 
 module.exports.createPost = async (req, res) => {
     try {
