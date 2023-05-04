@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
 import { useState } from 'react'
-import { TextField, Button } from '@mui/material'
+import { TextField, Button, Dialog, IconButton } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
+import Filter from 'bad-words'
+import CloseIcon from '@mui/icons-material/Close';
+
 import './css/PostForm.css'
 
 
@@ -25,7 +28,7 @@ function getRandomPlaceholder() {
 
 const validationCharacters = `"abcdefghijklmnopqrstuvwxyz1234567890 -.!?'",&`.split("")
 
-export default function PostForm({ user, onCreatePost }) {
+export default function PostForm({ user, onCreatePost, showForm, close }) {
     const [title, setTitle] = useState('')
     const [prompt, setPrompt] = useState('')
     const [formErrors, setFormErrors] = useState([])
@@ -63,9 +66,18 @@ export default function PostForm({ user, onCreatePost }) {
     const handleClick = e => {
 
         //Validation
+        let filter = new Filter()
         let errors = []
+        console.log(filter.isProfane(prompt))
         if (title.length < 3) {
             errors.push("Title should be at least 3 characters long.")
+        }
+        if (title.length > 32) {
+            errors.push("Title should not exceed 32 characters in length.")
+        }
+
+        if (filter.isProfane(title)) {
+            errors.push("Profane language detected in title. Try another one.")
         }
         if (title.split("").filter(char => !validationCharacters.includes(char.toLowerCase())).length) {
             errors.push("Title should only include alphanumeric and allowed characters (i.e.: A-z 0-9 . , ' \" ? ! & -).")
@@ -75,6 +87,9 @@ export default function PostForm({ user, onCreatePost }) {
         }
         if (prompt.split("").filter(char => !validationCharacters.includes(char.toLowerCase())).length) {
             errors.push("Prompt should only include alphanumeric and allowed characters (i.e.: A-z 0-9 . , ' \" ? ! & -).")
+        }
+        if (filter.isProfane(prompt)) {
+            errors.push("OpenAI would not let this prompt through due to the language used, so I'm not going to waste my precious credits on it.")
         }
 
         if (errors.length) {
@@ -86,44 +101,55 @@ export default function PostForm({ user, onCreatePost }) {
         }
     }
 
+    const handleClose = (event, reason) => {
+        close()
+    }
+
     return (
-        <form className="post__form">
-            <TextField
-                id="title"
-                name="title"
-                label="Title"
-                placeholder="My awesome idea"
-                value={title}
-                variant="outlined"
-                color="secondary"
-                autoFocus={true}
-                onChange={e => setTitle(e.target.value)}
-                helperText={formErrors.filter(error => error.includes("Title"))}
-            />
-            <TextField
-                id="prompt"
-                name="prompt"
-                label="Prompt"
-                placeholder={placeholder}
-                value={prompt}
-                variant="outlined"
-                color="secondary"
-                multiline
-                autoFocus={true}
-                onChange={e => setPrompt(e.target.value)}
-                helperText={formErrors.filter(error => error.includes("Prompt"))}
-            />
-            <LoadingButton
-                sx={isLoading ? {} : { fontWeight: 'bold' }}
-                loading={isLoading}
-                loadingPosition="start"
-                size="large"
-                fontSize="inherit"
-                variant="contained"
-                onClick={(e) => handleClick()}
-            >
-                {isLoading ? "Dreaming" : "Dream"}
-            </LoadingButton>
-        </form>
+        <Dialog open={showForm} onClose={handleClose} sx={{ display: "relative" }}>
+            <div className="postForm__closeContainer">
+                <IconButton onClick={handleClose}>
+                    <CloseIcon />
+                </IconButton>
+            </div>
+            <form className="postForm">
+                <TextField
+                    id="title"
+                    name="title"
+                    label="Title"
+                    placeholder="My awesome idea"
+                    value={title}
+                    variant="outlined"
+                    color="secondary"
+                    autoFocus={true}
+                    onChange={e => setTitle(e.target.value)}
+                    helperText={formErrors.filter(error => error.toLowerCase().includes("title"))}
+                />
+                <TextField
+                    id="prompt"
+                    name="prompt"
+                    label="Prompt"
+                    placeholder={placeholder}
+                    value={prompt}
+                    variant="outlined"
+                    color="secondary"
+                    multiline
+                    autoFocus={true}
+                    onChange={e => setPrompt(e.target.value)}
+                    helperText={formErrors.filter(error => error.toLowerCase().includes("prompt"))}
+                />
+                <LoadingButton
+                    sx={isLoading ? {} : { fontWeight: 'bold' }}
+                    loading={isLoading}
+                    loadingPosition="start"
+                    size="large"
+                    fontSize="inherit"
+                    variant="contained"
+                    onClick={(e) => handleClick()}
+                >
+                    {isLoading ? "Dreaming" : "Dream"}
+                </LoadingButton>
+            </form>
+        </Dialog>
     )
 }
