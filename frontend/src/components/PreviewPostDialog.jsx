@@ -1,18 +1,10 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material'
 import './css/PostDialog.css'
 
-export default function PostDialog({ isOpen, post, close }) {
-    const handleClose = (event, reason) => {
-        if (reason === "backdropClick") {
-            event.stopPropagation()
-        }
-        close()
-    }
+export default function PreviewPostDialog({ isOpen, post, close, updatePosts }) {
 
     const handleDelete = async () => {
         try {
-
-            console.log("Trying to delete: ", post._id)
             const response = fetch("http://localhost:4000/post/delete", {
                 method: "DELETE",
                 body: JSON.stringify({
@@ -28,8 +20,13 @@ export default function PostDialog({ isOpen, post, close }) {
         } catch (err) {
             console.err(err)
         }
-
     }
+
+    const handleKeep = () => {
+        updatePosts()
+        close()
+    }
+
     return (
         post && (
             <Dialog
@@ -64,7 +61,7 @@ export default function PostDialog({ isOpen, post, close }) {
                     </Button>
                     <Button
                         sx={{ width: '100px' }}
-                        onClick={handleClose}
+                        onClick={handleKeep}
                         variant="contained"
                         size="large">
                         Keep
