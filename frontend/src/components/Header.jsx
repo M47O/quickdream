@@ -1,10 +1,13 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { Button, Avatar, Drawer, useMediaQuery } from '@mui/material'
+import { Button, Avatar, Drawer, useMediaQuery, fabClasses } from '@mui/material'
 import { Logout as LogoutIcon, Menu as MenuIcon, Home as HomeIcon } from '@mui/icons-material/';
+import MobileMenu from '../components/MobileMenu'
 import "./css/Header.css"
 
 export default function Header({ user, handleLogout }) {
+    const [showMobileMenu, setShowMobileMenu] = useState(false)
+
     const navigate = useNavigate()
     const location = useLocation()
     const activePage = location.pathname
@@ -27,14 +30,18 @@ export default function Header({ user, handleLogout }) {
         }
     };
 
-
-    //Give active page class of header__activePage
     return (
         <header className='header'>
             <Link className="header__logo" to="/"><span>QD</span></Link>
             <nav className="header__nav">
                 {matches ? (
-                    <Button sx={{ marginRight: '5px' }} size="large" variant="contained"><MenuIcon /></Button>
+                    <Button
+                        onClick={() => setShowMobileMenu(true)}
+                        sx={{ marginRight: '5px' }}
+                        size="large"
+                        variant="contained">
+                        <MenuIcon />
+                    </Button>
                 ) : (
                     <ul className="header__list">
                         <li className={activePage === '/' ? 'header__activePage' : ''}>
@@ -77,6 +84,12 @@ export default function Header({ user, handleLogout }) {
                 )}
 
             </nav>
+            <MobileMenu
+                user={user}
+                handleLogout={handleLogout}
+                isOpen={showMobileMenu}
+                close={() => setShowMobileMenu(false)}
+            />
         </header>
     )
 
