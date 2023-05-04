@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import PostForm from '../components/PostForm'
 import PreviewPostDialog from '../components/PreviewPostDialog'
 import SelectedPostDialog from '../components/SelectedPostDialog'
@@ -6,7 +7,7 @@ import { IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import './css/ProfilePage.css'
 
-export default function ProfilePage({ loggedInUser }) {
+export default function ProfilePage({ user }) {
     const [showPreview, setShowPreview] = useState(false)
     const [showSelctedPost, setShowSelectedPost] = useState(false)
     const [showForm, setShowForm] = useState(false)
@@ -14,14 +15,21 @@ export default function ProfilePage({ loggedInUser }) {
     const [profilePosts, setProfilePosts] = useState([])
     const [selectedPost, setSelectedPost] = useState(null)
 
+    const params = useParams()
+    console.log(params)
+
     const handleCreatePost = (newPost) => {
         setPost(newPost)
         setShowPreview(true)
     }
 
+    // async function fetchUserInfo() {
+    //     const response = await fetch(`http://localhost:4000/user/${}`)
+    // }
+
     async function fetchPosts() {
         try {
-            const response = await fetch(`http://localhost:4000/post/user/${loggedInUser.id}`, { credentials: "include" });
+            const response = await fetch(`http://localhost:4000/post/user/${user.id}`, { credentials: "include" });
             const profilePostsData = await response.json();
             setProfilePosts(profilePostsData)
         } catch (err) {
@@ -31,16 +39,16 @@ export default function ProfilePage({ loggedInUser }) {
 
     useEffect(() => {
         fetchPosts();
-    }, [loggedInUser]);
+    }, [user]);
 
     console.log(profilePosts)
 
     return (
-        !loggedInUser ? <p style={{ textAlign: "center" }}>Please log in to access your profile page.</p> : (
+        !user ? <p style={{ textAlign: "center" }}>Please log in to access your profile page.</p> : (
             <div className="profile">
                 {showForm &&
                     <PostForm
-                        loggedInUser={loggedInUser}
+                        user={user}
                         onCreatePost={handleCreatePost}
                         showForm={showForm}
                         close={() => {
@@ -101,8 +109,8 @@ export default function ProfilePage({ loggedInUser }) {
                         close={() => setShowSelectedPost(false)}
                         post={selectedPost}
                         isOpen={showSelctedPost}
-                        author={loggedInUser}
-                        loggedInUser={loggedInUser}
+                        author={user}
+                        user={user}
                     />
                 </section >
 

@@ -1,7 +1,8 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material'
+import { useEffect, useState } from 'react'
 import './css/PostDialog.css'
 
-export default function SelectedPostDialog({ isOpen, post, close, user }) {
+export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, author }) {
 
     const handleDelete = async () => {
         try {

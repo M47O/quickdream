@@ -1,4 +1,4 @@
-.post__form{
+.postForm{
     display: flex;
     flex-direction: column;
     gap: 26px;
@@ -8,4 +8,12 @@
     max-width: 420px;
     box-shadow: 3px 3px hsl(340, 31%, 90%), 3px 3px 12px hsl(340, 31%, 92%), 3px 3px 16px hsl(340, 31%, 93%);
     border-radius: 6px;
+}
+
+.postForm__closeContainer{
+    position: absolute;
+    top: 6px;
+    right: 6px;
+
+    border-radius: 45%;;
 }

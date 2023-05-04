@@ -5,10 +5,10 @@ import AuthForm from '../components/AuthForm'
 import './css/AuthPage.css'
 
 
-export default function AuthPage({ user, handleLogin }) {
+export default function AuthPage({ loggedInUser, handleLogin }) {
   const [showGuestInfo, setShowGuestInfo] = useState(true)
   return (
-    user ? <p>You're already signed in. Log out to access this page.</p> :
+    loggedInUser ? <p>You're already signed in. Log out to access this page.</p> :
       <div className="auth">
         <AuthForm handleLogin={handleLogin} />
 

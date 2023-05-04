@@ -1,52 +1,83 @@
 .profile {
-    margin-top: 15px;
+    margin-top: 10px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
 
 }
 
-.myPosts {
-    padding: 10px;
+.profilePosts{
     display: flex;
-    flex-wrap: wrap;
-
-}
-
-.postCard {
-    display: flex;
+    position: relative;
     flex-direction: column;
     align-items: center;
     box-shadow: 3px 3px hsl(340, 31%, 90%), 3px 3px 12px hsl(340, 31%, 92%), 3px 3px 16px hsl(340, 31%, 93%);
-
+    padding: 10px;
 }
 
-.profile__left{
-    width: 50%;
+.profilePosts__iconContainer{
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    background: var(--color-bg);
+    border: 2px solid hsl(340, 31%, 90%);
+    box-shadow: 3px 3px hsl(340, 31%, 90%), 3px 3px 12px hsl(340, 31%, 92%), 3px 3px 16px hsl(340, 31%, 93%);
+    border-radius: 100%;
 }
 
-.profile__right{
-    width:50%;
+.profilePosts__heading {
+    margin-bottom: 16px;
+    font-size: 1.2rem;
 }
 
-@media screen and (max-width: 640px) {
-    .profile {
-        flex-direction: column;
-    }
+.profilePosts__noPostMessage {
+    text-align: center;
+    margin-top: 10px;
+    max-width: 330px;
+    font-size: 1.1rem;
+}
 
-    .profile__left {
-        width: 100%;
-    }
+.postGrid {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 2px;
+    user-select:none;
+}
 
-    .profile__right {
-        width: 100%;
-    }
+.postGrid__imageContainer {
+    position: relative;
+    max-width: 250px;
+    cursor: pointer;
+}
 
-    .myPosts{
-        
-    }
+.postGrid__imageContainer:hover .postGrid__imageTitle{
+    color: var(--color-bg);
+    transition: color 275ms, background-color 275ms;
+    text-shadow: 1px;
+    background-color: var(--color-font-primary);
+}
 
-    .postCard__image{
-        width: 140px;
-    }
+.postGrid__titleContainer {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    max-width: 90%;
+    overflow: hidden;
+    white-space: nowrap;
+}
 
+.postGrid__imageTitle{
+    color: transparent;
+    user-select: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 12px;
+    transition: color 275ms, background-color 275ms;
+    padding: 3px 6px;
+    border-radius: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .postGrid__imageTitle{
+        display: none;
+    }
 }

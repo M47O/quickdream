@@ -26,7 +26,9 @@ function getRandomPlaceholder() {
     return placeholderPrompts[Math.floor(Math.random() * placeholderPrompts.length)];
 }
 
-const validationCharacters = `"abcdefghijklmnopqrstuvwxyz1234567890 -.!?'",&`.split("")
+const titleValidationCharacters = `"abcdefghijklmnopqrstuvwxyz1234567890 -`.split("")
+const promptValidationCharacters = `"abcdefghijklmnopqrstuvwxyz1234567890 -.!?'",&`.split("")
+
 
 export default function PostForm({ user, onCreatePost, showForm, close }) {
     const [title, setTitle] = useState('')
@@ -68,7 +70,6 @@ export default function PostForm({ user, onCreatePost, showForm, close }) {
         //Validation
         let filter = new Filter()
         let errors = []
-        console.log(filter.isProfane(prompt))
         if (title.length < 3) {
             errors.push("Title should be at least 3 characters long.")
         }
@@ -79,14 +80,14 @@ export default function PostForm({ user, onCreatePost, showForm, close }) {
         if (filter.isProfane(title)) {
             errors.push("Profane language detected in title. Try another one.")
         }
-        if (title.split("").filter(char => !validationCharacters.includes(char.toLowerCase())).length) {
-            errors.push("Title should only include alphanumeric and allowed characters (i.e.: A-z 0-9 . , ' \" ? ! & -).")
+        if (title.split("").filter(char => !titleValidationCharacters.includes(char.toLowerCase())).length) {
+            errors.push("Title should only contain alphanumeric characters and hyphens.")
         }
         if (prompt.length < 3) {
             errors.push("Prompt should be at least 3 characters long.")
         }
-        if (prompt.split("").filter(char => !validationCharacters.includes(char.toLowerCase())).length) {
-            errors.push("Prompt should only include alphanumeric and allowed characters (i.e.: A-z 0-9 . , ' \" ? ! & -).")
+        if (prompt.split("").filter(char => !promptValidationCharacters.includes(char.toLowerCase())).length) {
+            errors.push("Prompt should only contain alphanumeric and allowed characters (i.e.: A-z 0-9 . , ' \" ? ! & -).")
         }
         if (filter.isProfane(prompt)) {
             errors.push("OpenAI would not let this prompt through due to the language used, so I'm not going to waste my precious credits on it.")
@@ -97,7 +98,7 @@ export default function PostForm({ user, onCreatePost, showForm, close }) {
         } else if (user) {
             createPost()
         } else {
-            console.log(errors, user)
+            console.log(errors, `User is: ${user}`)
         }
     }
 

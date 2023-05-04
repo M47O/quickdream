@@ -1,6 +1,6 @@
 const User = require("../models/User")
 
-module.exports.getPostsByUserId = async (req, res) => {
+module.exports.getUserInfo = async (req, res) => {
     try {
         const user = await User.findById(req.params.id)
         res.json(user);

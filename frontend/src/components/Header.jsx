@@ -5,7 +5,7 @@ import { Logout as LogoutIcon, Menu as MenuIcon, Home as HomeIcon } from '@mui/i
 import MobileMenu from '../components/MobileMenu'
 import "./css/Header.css"
 
-export default function Header({ user, handleLogout }) {
+export default function Header({ loggedInUser, handleLogout }) {
     const [showMobileMenu, setShowMobileMenu] = useState(false)
 
     const navigate = useNavigate()
@@ -47,14 +47,14 @@ export default function Header({ user, handleLogout }) {
                         <li className={activePage === '/' ? 'header__activePage' : ''}>
                             <Link to="/">Home <HomeIcon /></Link>
                         </li>
-                        {user && <li>
+                        {loggedInUser && <li>
                             <Link
                                 className={activePage === '/profile' ? "header__activePage header__profile" : "header__profile"}
                                 to="/profile">
-                                {user.username}
-                                <Avatar sx={{ border: '2px solid lightgray', boxShadow: 'inset 0 0 0 1px hsla(0,0%,0%,.75)' }} alt="My profile" src={user.avatar} />
+                                {loggedInUser.username}
+                                <Avatar sx={{ border: '2px solid lightgray', boxShadow: 'inset 0 0 0 1px hsla(0,0%,0%,.75)' }} alt="My profile" src={loggedInUser.avatar} />
                             </Link></li>}
-                        {user ? (
+                        {loggedInUser ? (
                             <li>
                                 <Button
                                     size="large"
@@ -85,7 +85,7 @@ export default function Header({ user, handleLogout }) {
 
             </nav>
             <MobileMenu
-                user={user}
+                loggedInUser={loggedInUser}
                 handleLogout={handleLogout}
                 isOpen={showMobileMenu}
                 close={() => setShowMobileMenu(false)}
