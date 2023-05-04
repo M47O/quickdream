@@ -13,7 +13,7 @@
     align-items: flex-start;
     max-width: 420px;
     margin-top: 16px;
-    padding: 12px 0 12px 8px; /* MUI Icon natively has 8px padding*/
+    padding: 12px 18px 12px 8px;
     border-radius: 6px;
     background: var(--color-secondary);
 }
