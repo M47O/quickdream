@@ -11,6 +11,7 @@ const cors = require("cors")
 
 const authRoutes = require('./routes/auth')
 const postRoutes = require('./routes/post')
+const userRoutes = require('./routes/user')
 
 
 
@@ -42,6 +43,7 @@ require('./config/passport')(passport)
 // Routes // 
 app.use('/auth', authRoutes)
 app.use('/post', postRoutes)
+app.use('/user', userRoutes)
 
 
 app.listen(process.env.PORT, console.log(`Server running on port ${process.env.PORT}`))

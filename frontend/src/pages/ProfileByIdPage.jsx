@@ -1,82 +1,58 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import PostForm from '../components/PostForm'
-import PreviewPostDialog from '../components/PreviewPostDialog'
+import { useNavigate, useParams } from 'react-router-dom'
 import SelectedPostDialog from '../components/SelectedPostDialog'
-import { IconButton } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
 import './css/ProfilePage.css'
 
-export default function ProfilePage({ user }) {
-    const [showPreview, setShowPreview] = useState(false)
+export default function ProfileByIdPage({ loggedInUser }) {
+    const [requestedUser, setRequestedUser] = useState(null)
     const [showSelctedPost, setShowSelectedPost] = useState(false)
-    const [showForm, setShowForm] = useState(false)
-    const [post, setPost] = useState(null)
     const [profilePosts, setProfilePosts] = useState([])
     const [selectedPost, setSelectedPost] = useState(null)
 
     const params = useParams()
-    console.log(params)
+    const navigate = useNavigate()
 
-    const handleCreatePost = (newPost) => {
-        setPost(newPost)
-        setShowPreview(true)
+    const fetchUserInfo = async () => {
+        try {
+            const response = await fetch(`http://localhost:4000/user/userInfo/${params.id}`)
+            const data = await response.json()
+            setRequestedUser({ username: data.username, id: data._id, avatar: data.avatar })
+        } catch (err) {
+            console.err(err)
+        }
+
     }
-
-    // async function fetchUserInfo() {
-    //     const response = await fetch(`http://localhost:4000/user/${}`)
-    // }
 
     async function fetchPosts() {
         try {
-            const response = await fetch(`http://localhost:4000/post/user/${user.id}`, { credentials: "include" });
-            const profilePostsData = await response.json();
-            setProfilePosts(profilePostsData)
+            if (requestedUser !== null) {
+                const response = await fetch(`http://localhost:4000/post/user/${requestedUser.id}`, { credentials: "include" });
+                const profilePostsData = await response.json();
+                setProfilePosts(profilePostsData)
+            }
         } catch (err) {
             console.error(err);
         }
     }
 
     useEffect(() => {
-        fetchPosts();
-    }, [user]);
+        fetchUserInfo();
+    }, [params.id]);
 
-    console.log(profilePosts)
+    useEffect(() => {
+        if (requestedUser) {
+            fetchPosts();
+        }
+        if (requestedUser && loggedInUser && (loggedInUser.id === requestedUser.id)) {
+            navigate('/profile');
+        }
+    }, [requestedUser, loggedInUser]);
 
-    return (
-        !user ? <p style={{ textAlign: "center" }}>Please log in to access your profile page.</p> : (
+    return (!loggedInUser ? <p style={{ textAlign: "center" }}> Please log in to view this user's profile.</p> :
+        (!requestedUser ? <p style={{ textAlign: "center" }}>This user doesn't exist.</p> : (
             <div className="profile">
-                {showForm &&
-                    <PostForm
-                        user={user}
-                        onCreatePost={handleCreatePost}
-                        showForm={showForm}
-                        close={() => {
-                            setShowForm(false)
-                        }}
-                    />}
-
-                <PreviewPostDialog
-                    isOpen={showPreview}
-                    post={post}
-                    updatePosts={fetchPosts}
-                    close={() => {
-                        setShowPreview(false)
-                        setPost(null)
-                        setShowForm(false)
-                    }}
-                />
                 <section className="profilePosts">
-                    <div className="profilePosts__iconContainer">
-                        <IconButton
-                            size="large"
-                            onClick={() => setShowForm(true)}
-                        >
-                            <AddIcon sx={{ color: 'inherit' }} />
-                        </IconButton>
-                    </div>
-
-                    <h2 className="profilePosts__heading">My Posts</h2>
+                    <h2 className="profilePosts__heading">{requestedUser.username}'s Posts</h2>
                     {profilePosts.length > 0 ? (
 
                         <div className="postGrid">
@@ -102,20 +78,19 @@ export default function ProfilePage({ user }) {
                             ))}
                         </div>
                     ) :
-                        <p className="profilePosts__noPostMessage">You don't have any posts! <br />Click the <b>plus</b> in the top left to generate your first image! </p>
+                        <p className="profilePosts__noPostMessage"><b>{requestedUser.username}</b> doesn't have any posts!</p>
                     }
 
                     <SelectedPostDialog
                         close={() => setShowSelectedPost(false)}
                         post={selectedPost}
                         isOpen={showSelctedPost}
-                        author={user}
-                        user={user}
+                        author={requestedUser}
+                        loggedInUser={loggedInUser}
                     />
                 </section >
-
             </div >
-
+        )
         )
     )
 }

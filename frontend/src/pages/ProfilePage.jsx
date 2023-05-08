@@ -21,9 +21,11 @@ export default function ProfilePage({ loggedInUser }) {
 
     async function fetchPosts() {
         try {
-            const response = await fetch(`http://localhost:4000/post/user/${loggedInUser.id}`, { credentials: "include" });
-            const profilePostsData = await response.json();
-            setProfilePosts(profilePostsData)
+            if (loggedInUser) {
+                const response = await fetch(`http://localhost:4000/post/user/${loggedInUser.id}`, { credentials: "include" });
+                const profilePostsData = await response.json();
+                setProfilePosts(profilePostsData)
+            }
         } catch (err) {
             console.error(err);
         }
@@ -32,8 +34,6 @@ export default function ProfilePage({ loggedInUser }) {
     useEffect(() => {
         fetchPosts();
     }, [loggedInUser]);
-
-    console.log(profilePosts)
 
     return (
         !loggedInUser ? <p style={{ textAlign: "center" }}>Please log in to access your profile page.</p> : (
@@ -78,7 +78,6 @@ export default function ProfilePage({ loggedInUser }) {
                                     onClick={() => {
                                         setSelectedPost(post)
                                         setShowSelectedPost(true)
-                                        console.log(selectedPost)
                                     }}
                                 >
 

@@ -30,7 +30,7 @@ const titleValidationCharacters = `"abcdefghijklmnopqrstuvwxyz1234567890 -`.spli
 const promptValidationCharacters = `"abcdefghijklmnopqrstuvwxyz1234567890 -.!?'",&`.split("")
 
 
-export default function PostForm({ user, onCreatePost, showForm, close }) {
+export default function PostForm({ loggedInUser, onCreatePost, showForm, close }) {
     const [title, setTitle] = useState('')
     const [prompt, setPrompt] = useState('')
     const [formErrors, setFormErrors] = useState([])
@@ -95,10 +95,10 @@ export default function PostForm({ user, onCreatePost, showForm, close }) {
 
         if (errors.length) {
             setFormErrors(errors)
-        } else if (user) {
+        } else if (loggedInUser) {
             createPost()
         } else {
-            console.log(errors, `User is: ${user}`)
+            console.log(errors, `User is: ${loggedInUser}`)
         }
     }
 

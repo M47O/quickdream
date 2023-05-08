@@ -5,6 +5,11 @@ const post = new mongoose.Schema({
     image: String,
     cloudinaryId: String,
     likes: Number,
+    likedBy: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'User',
+        default: [],
+    },
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",

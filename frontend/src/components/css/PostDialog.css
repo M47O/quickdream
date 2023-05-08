@@ -7,7 +7,7 @@
     width: 312px;
 }
 
-.dialog__prompt {
+.previewDialog__prompt {
     margin-top: 10px;
     max-width: 400px;
 }
@@ -15,6 +15,18 @@
 .selectedDialog__prompt {
     margin-top: 10px;
     max-width: 400px;
+}
+
+.selectedDialog__info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.selectedDialog__likesContainer {
+    display: flex;
+    align-items: center;
 }
 
 /* Small */

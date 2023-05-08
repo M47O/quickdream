@@ -44,8 +44,8 @@ export default function PreviewPostDialog({ isOpen, post, close, updatePosts }) 
                         flexDirection: 'column',
                         alignItems: 'center'
                     }}>
-                    <img className="dialog__image" src={post.image} alt={post.prompt} />
-                    <p className="dialog__prompt">{post.prompt}</p>
+                    <img className="previewDialog__image" src={post.image} alt={post.prompt} />
+                    <p className="previewDialog__prompt">{post.prompt}</p>
                 </DialogContent>
                 <DialogActions sx={{
                     display: 'flex',

@@ -4,12 +4,44 @@ const User = require("../models/User")
 const openai = require("../config/openai")
 const cloudinary = require("../config/cloudinary")
 
-module.exports.getMyPosts = async (req, res) => {
+module.exports.likePost = async (req, res) => {
     try {
-        const myPosts = await Post.find({ author: req.user._id }).sort({ createdAt: -1 })
-        res.json(myPosts)
+        const post = await Post.findById({ _id: req.body.id })
+
+        console.log('Id: ', req.body.id)
+        console.log('Liker: ', req.body.liker)
+
+        if (!post.likedBy.includes(req.body.liker)) {
+            await Post.findOneAndUpdate(
+                { _id: req.body.id },
+                {
+                    $push: { likedBy: req.body.liker },
+                    $inc: { likes: 1 }
+                },
+            )
+        }
+        res.send("Successfully liked post")
     } catch (err) {
-        console.log(err)
+        console.log("Error liking post: ", err)
+    }
+}
+
+module.exports.unlikePost = async (req, res) => {
+    try {
+        const post = await Post.findById({ _id: req.body.id })
+
+        if (post.likedBy.includes(req.body.liker)) {
+            await Post.findOneAndUpdate(
+                { _id: req.body.id },
+                {
+                    $pull: { likedBy: req.body.liker },
+                    $inc: { likes: -1 }
+                },
+            )
+        }
+        res.send("Successfully unliked post")
+    } catch (err) {
+        console.log("Error unliking post: ", err)
     }
 }
 
@@ -22,7 +54,6 @@ module.exports.getPostsByUserId = async (req, res) => {
         res.status(500).send('Error retrieving posts from database');
     }
 }
-
 
 module.exports.createPost = async (req, res) => {
     try {
@@ -81,7 +112,7 @@ module.exports.createPost = async (req, res) => {
 
 module.exports.deletePost = async (req, res) => {
     try {
-        let post = await Post.findById({ _id: req.body.id })
+        const post = await Post.findById({ _id: req.body.id })
         //Delete from cloudinary
         await cloudinary.uploader.destroy(post.cloudinaryId)
         //Delete from db
