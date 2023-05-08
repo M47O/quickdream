@@ -22,7 +22,6 @@ export default function Header({ loggedInUser, handleLogout }) {
                 credentials: "include"
             });
             const data = await response.json();
-            console.log(data);
             handleLogout();
             navigate("/")
         } catch (error) {
