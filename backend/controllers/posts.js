@@ -55,6 +55,17 @@ module.exports.getPostsByUserId = async (req, res) => {
     }
 }
 
+module.exports.getSuperlatives = async (req, res) => {
+    try {
+        const mostLikedPosts = await Post.find().sort({ likes: -1 }).limit(3)
+        const mostRecentPosts = await Post.find().sort({ createdAt: -1 }).limit(3)
+        res.json({ mostLikedPosts, mostRecentPosts })
+    } catch (err) {
+        console.error(err)
+        res.status(500).send('Error retrieving superlative posts from database')
+    }
+}
+
 module.exports.createPost = async (req, res) => {
     try {
         const response = await openai.createImage({
