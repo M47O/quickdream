@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
+import apiUrl from '../api';
 import { Button, Avatar, Drawer, useMediaQuery, fabClasses } from '@mui/material'
 import { Logout as LogoutIcon, Menu as MenuIcon, Home as HomeIcon } from '@mui/icons-material/';
 import MobileMenu from '../components/MobileMenu'
@@ -17,7 +18,7 @@ export default function Header({ loggedInUser, handleLogout }) {
 
     const logout = async () => {
         try {
-            const response = await fetch("http://localhost:4000/auth/logout", {
+            const response = await fetch(`${apiUrl}/auth/logout`, {
                 method: "POST",
                 credentials: "include"
             });

@@ -4,7 +4,7 @@ import { Logout as LogoutIcon, Menu as MenuIcon, Home as HomeIcon, Person2 } fro
 import Person2Icon from '@mui/icons-material/Person2';
 import './css/MobileMenu.css'
 
-export default function MobileMenu({ user, close, isOpen, handleLogout }) {
+export default function MobileMenu({ loggedInUser, close, isOpen, handleLogout }) {
     const location = useLocation()
     const activePage = location.pathname
 
@@ -15,7 +15,7 @@ export default function MobileMenu({ user, close, isOpen, handleLogout }) {
             onClose={close}
         >
             <List>
-                {!user &&
+                {!loggedInUser &&
                     <Link onClick={close}
                         style={{ textDecoration: 'none' }}
                         to='/auth'>
@@ -29,7 +29,7 @@ export default function MobileMenu({ user, close, isOpen, handleLogout }) {
                     </Link>
                 }
 
-                {user &&
+                {loggedInUser &&
                     <ListItem
                         sx={{
                             display: 'flex',
@@ -37,7 +37,7 @@ export default function MobileMenu({ user, close, isOpen, handleLogout }) {
                             justifyContent: 'center',
                         }}>
                         <ListItemText>
-                            {user.username}
+                            {loggedInUser.username}
                         </ListItemText>
                     </ListItem>
                 }
@@ -52,7 +52,7 @@ export default function MobileMenu({ user, close, isOpen, handleLogout }) {
                         <Link to="/" className="mobileMenu__link">Home</Link>
                     </ListItemText>
                 </ListItem>
-                {user &&
+                {loggedInUser &&
                     <ListItem onClick={close}>
                         <ListItemIcon sx={{ display: 'flex', alignItems: 'center' }}>
                             <Person2 />
@@ -62,7 +62,7 @@ export default function MobileMenu({ user, close, isOpen, handleLogout }) {
                         </ListItemText>
                     </ListItem>
                 }
-                {user &&
+                {loggedInUser &&
                     <Link
                         onClick={() => {
                             handleLogout()

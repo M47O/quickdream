@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import apiUrl from '../api'
 import PostForm from '../components/PostForm'
 import PreviewPostDialog from '../components/PreviewPostDialog'
 import SelectedPostDialog from '../components/SelectedPostDialog'
@@ -8,11 +9,11 @@ import './css/ProfilePage.css'
 
 export default function ProfilePage({ loggedInUser }) {
     const [showPreview, setShowPreview] = useState(false)
-    const [showSelctedPost, setShowSelectedPost] = useState(false)
     const [showForm, setShowForm] = useState(false)
     const [post, setPost] = useState(null)
     const [profilePosts, setProfilePosts] = useState([])
     const [selectedPost, setSelectedPost] = useState(null)
+    const [showSelectedPost, setShowSelectedPost] = useState(false)
 
     const handleCreatePost = (newPost) => {
         setPost(newPost)
@@ -22,7 +23,7 @@ export default function ProfilePage({ loggedInUser }) {
     async function fetchPosts() {
         try {
             if (loggedInUser) {
-                const response = await fetch(`http://localhost:4000/post/user/${loggedInUser.id}`, { credentials: "include" });
+                const response = await fetch(`${apiUrl}/post/user/${loggedInUser.id}`, { credentials: "include" });
                 const profilePostsData = await response.json();
                 setProfilePosts(profilePostsData)
             }
@@ -99,9 +100,11 @@ export default function ProfilePage({ loggedInUser }) {
                     <SelectedPostDialog
                         close={() => setShowSelectedPost(false)}
                         post={selectedPost}
-                        isOpen={showSelctedPost}
+                        isOpen={showSelectedPost}
                         author={loggedInUser}
                         loggedInUser={loggedInUser}
+                        profilePosts={profilePosts}
+                        setProfilePosts={setProfilePosts}
                     />
                 </section >
 

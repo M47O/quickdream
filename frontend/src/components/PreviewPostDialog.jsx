@@ -1,3 +1,4 @@
+import apiUrl from '../api'
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material'
 import './css/PostDialog.css'
 
@@ -5,7 +6,7 @@ export default function PreviewPostDialog({ isOpen, post, close, updatePosts }) 
 
     const handleDelete = async () => {
         try {
-            const response = fetch("http://localhost:4000/post/delete", {
+            const response = fetch(`${apiUrl}/post/delete`, {
                 method: "DELETE",
                 body: JSON.stringify({
                     id: post._id

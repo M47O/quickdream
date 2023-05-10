@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import apiUrl from '../api';
 import { TextField, InputAdornment, IconButton, Switch, Button } from '@mui/material';
 import { AccountCircle, Visibility, VisibilityOff, Login } from '@mui/icons-material';
 
@@ -65,7 +66,7 @@ export default function AuthForm({ handleLogin }) {
     const login = async () => {
         try {
             if (username.length && !validationErrors.usernameErrors.length && !validationErrors.passwordErrors.length) {
-                const response = await fetch("http://localhost:4000/auth/login", {
+                const response = await fetch(`${apiUrl}/auth/login`, {
                     method: "POST",
                     body: JSON.stringify({
                         username: username,
@@ -96,7 +97,7 @@ export default function AuthForm({ handleLogin }) {
     const register = async () => {
         try {
             if (!validationErrors.usernameErrors.length && !validationErrors.passwordErrors.length && !validationErrors.confirmPasswordErrors.length) {
-                const response = await fetch("http://localhost:4000/auth/register", {
+                const response = await fetch(`${apiUrl}/auth/register`, {
                     method: "POST",
                     body: JSON.stringify({
                         username: username,

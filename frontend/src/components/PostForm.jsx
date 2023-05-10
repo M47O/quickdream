@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useState } from 'react'
+import apiUrl from '../api';
 import { TextField, Button, Dialog, IconButton } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import Filter from 'bad-words'
@@ -45,7 +46,7 @@ export default function PostForm({ loggedInUser, onCreatePost, showForm, close }
     const createPost = async () => {
         try {
             setIsLoading(true)
-            const response = await fetch("http://localhost:4000/post/create", {
+            const response = await fetch(`${apiUrl}/post/create`, {
                 method: "POST",
                 body: JSON.stringify({
                     title: title,

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import apiUrl from '../api'
 import SelectedPostDialog from '../components/SelectedPostDialog'
 import './css/ProfilePage.css'
 
@@ -14,7 +15,7 @@ export default function ProfileByIdPage({ loggedInUser }) {
 
     const fetchUserInfo = async () => {
         try {
-            const response = await fetch(`http://localhost:4000/user/userInfo/${params.id}`)
+            const response = await fetch(`${apiUrl}/user/userInfo/${params.id}`)
             const data = await response.json()
             setRequestedUser({ username: data.username, id: data._id, avatar: data.avatar })
         } catch (err) {
@@ -62,7 +63,6 @@ export default function ProfileByIdPage({ loggedInUser }) {
                                     onClick={() => {
                                         setSelectedPost(post)
                                         setShowSelectedPost(true)
-                                        console.log(selectedPost)
                                     }}
                                 >
 
