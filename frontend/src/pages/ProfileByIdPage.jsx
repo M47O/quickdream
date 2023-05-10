@@ -27,7 +27,7 @@ export default function ProfileByIdPage({ loggedInUser }) {
     async function fetchPosts() {
         try {
             if (requestedUser !== null) {
-                const response = await fetch(`http://localhost:4000/post/user/${requestedUser.id}`, { credentials: "include" });
+                const response = await fetch(`${apiUrl}/post/user/${requestedUser.id}`, { credentials: "include" });
                 const profilePostsData = await response.json();
                 setProfilePosts(profilePostsData)
             }

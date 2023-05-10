@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
+import apiUrl from './api'
 import HomePage from './pages/HomePage'
 import AuthPage from './pages/AuthPage'
 import ProfilePage from './pages/ProfilePage'
@@ -15,7 +16,7 @@ function App() {
   const getUser = useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch("http://localhost:4000/auth/user", { credentials: "include" });
+        const response = await fetch(`${apiUrl}/auth/user`, { credentials: "include" });
         const data = await response.json();
         setLoggedInUser({ username: data.username, id: data._id, avatar: data.avatar });
       } catch (error) {
