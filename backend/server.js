@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(logger("dev"));
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://quickdream.netlify.app"],
     credentials: true
 }))
 
@@ -35,7 +35,7 @@ app.use(
     })
 )
 
-app.use(cookieParser("keyboardcat"))
+app.use(cookieParser("keyboard cat"))
 app.use(passport.initialize())
 app.use(passport.session())
 require('./config/passport')(passport)
