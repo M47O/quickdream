@@ -9,7 +9,11 @@ Quickdream is a full-stack social media app created to explore the capabilities 
 </p>
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/b3d0599e-49d2-4be3-a0f7-158f16bd0110/deploy-status)](https://app.netlify.com/sites/quickdream/deploys) [![Railway - Offline](https://img.shields.io/static/v1?label=Railway&message=Offline&color=%230B0D0E&logo=railway)](https://quickdream-production.up.railway.app/)
-**Link to project:** *Coming soon!* *Quickdream's backend is iteratively migrating from a deprecated hosting environment to Railway*
+
+
+**Link to project:** https://quickdream.netlify.app/
+
+*Quickdream's backend is iteratively migrating from a deprecated hosting environment to Railway, *so authentication and image generation will not work for a few days**
 ## How It's Made:
 
 **Tech used:** HTML, CSS, JavaScript, React, Vite, MUI, Express, MongoDB
