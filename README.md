@@ -1,13 +1,15 @@
+
 # Quickdream
 Quickdream is a full-stack social media app created to explore the capabilities of AI image generation and OpenAI's public API in general. Users are able to enter a prompt and have an image generated based on that prompt. These images are then shared on the Quickdream platform, where users can follow each other, like and comment on images, and discover new and interesting prompts to try. 
 
-⛔ **The app is currently being developed and isn't quite at the minimum viable product stage, but work is being done daily to get there.** 
+**The app has just entered the minimum viable product stage, so some promised features may be absent at the moment.** 
 
 <p align="center">
-(Demo image coming soon)
+<img src="quickdream-demo.gif" alt="Demo of the Quickdream site">
 </p>
 
-**Link to project:** *Coming soon!*
+[![Netlify Status](https://api.netlify.com/api/v1/badges/b3d0599e-49d2-4be3-a0f7-158f16bd0110/deploy-status)](https://app.netlify.com/sites/quickdream/deploys) [![Railway - Offline](https://img.shields.io/static/v1?label=Railway&message=Offline&color=%230B0D0E&logo=railway)](https://quickdream-production.up.railway.app/)
+**Link to project:** *Coming soon!* *Quickdream's backend is iteratively migrating from a deprecated hosting environment to Railway*
 ## How It's Made:
 
 **Tech used:** HTML, CSS, JavaScript, React, Vite, MUI, Express, MongoDB
