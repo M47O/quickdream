@@ -13,7 +13,8 @@ Quickdream is a full-stack social media app created to explore the capabilities 
 
 **Link to project:** https://quickdream.netlify.app/
 
-*Quickdream's backend is iteratively migrating from a deprecated hosting environment to Railway, *so authentication and image generation will not work for a few days**
+__Thursday, May 11:__
+*Quickdream's backend is iteratively migrating from a deprecated hosting environment to Railway, **so authentication and image generation will not work for a few days**.*
 ## How It's Made:
 
 **Tech used:** HTML, CSS, JavaScript, React, Vite, MUI, Express, MongoDB
