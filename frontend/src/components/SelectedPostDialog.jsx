@@ -32,7 +32,6 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
                 headers: {
                     "Content-type": "application/json",
                 },
-                credentials: "include"
             })
 
             setIsLiked(true)
@@ -53,7 +52,6 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
                 headers: {
                     "Content-type": "application/json",
                 },
-                credentials: "include"
             })
 
             setIsLiked(false)
@@ -75,7 +73,6 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
                 headers: {
                     "Content-type": "application/json",
                 },
-                credentials: "include"
             })
 
             close()

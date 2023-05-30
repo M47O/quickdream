@@ -55,7 +55,6 @@ export default function PostForm({ loggedInUser, onCreatePost, showForm, close }
                 headers: {
                     "Content-type": "application/json",
                 },
-                credentials: "include"
             })
 
             const data = await response.json()

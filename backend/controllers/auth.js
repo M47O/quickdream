@@ -8,7 +8,8 @@ module.exports.login = (req, res, next) => {
     passport.authenticate("local", (err, user, info) => {
         if (err) {
             console.error("Error during authentication:", err);
-            return res.status(500).error({ error: "Internal server error" });
+            res.status(500).error({ error: "Internal server error" })
+            return next(err);
         }
 
         if (!user) {

@@ -13,8 +13,7 @@ export default function PreviewPostDialog({ isOpen, post, close, updatePosts }) 
                 }),
                 headers: {
                     "Content-type": "application/json",
-                },
-                credentials: "include"
+                }
             })
 
             close()

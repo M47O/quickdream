@@ -16,7 +16,7 @@ function App() {
   const getUser = useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(`${apiUrl}/auth/user`, { credentials: "include" });
+        const response = await fetch(`${apiUrl}/auth/user`);
         const data = await response.json();
         setLoggedInUser({ username: data.username, id: data._id, avatar: data.avatar });
       } catch (error) {
