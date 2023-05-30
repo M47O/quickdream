@@ -23,7 +23,7 @@ export default function ProfilePage({ loggedInUser }) {
     async function fetchPosts() {
         try {
             if (loggedInUser) {
-                const response = await fetch(`${apiUrl}/post/user/${loggedInUser.id}`, { credentials: "include" });
+                const response = await fetch(`${apiUrl}/post/user/${loggedInUser.id}`);
                 const profilePostsData = await response.json();
                 setProfilePosts(profilePostsData)
             }

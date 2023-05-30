@@ -74,8 +74,7 @@ export default function AuthForm({ handleLogin }) {
                     }),
                     headers: {
                         "Content-type": "application/json",
-                    },
-                    credentials: "include"
+                    }
                 });
                 const data = await response.json();
                 if (data.error) {
@@ -105,8 +104,7 @@ export default function AuthForm({ handleLogin }) {
                     }),
                     headers: {
                         "Content-type": "application/json",
-                    },
-                    credentials: "include"
+                    }
                 });
                 const data = await response.json();
                 if (data.error) {

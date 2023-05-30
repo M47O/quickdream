@@ -16,7 +16,7 @@ export default function HomePage({ loggedInUser }) {
 
     useEffect(() => {
         const getSuperlatives = async () => {
-            const response = await fetch(`${apiUrl}/post/superlatives`, { credentials: 'include' })
+            const response = await fetch(`${apiUrl}/post/superlatives`)
             const data = await response.json()
             const { mostLikedPosts, mostRecentPosts } = data
             setMostLiked(mostLikedPosts)
