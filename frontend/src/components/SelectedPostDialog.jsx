@@ -23,7 +23,7 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
 
     const handleLike = async () => {
         try {
-            const response = await fetch(`${apiUrl}/post/like`, {
+            const response = await fetch(`${apiUrl}/api/post/like`, {
                 method: "PUT",
                 body: JSON.stringify({
                     id: post._id,
@@ -43,7 +43,7 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
 
     const handleUnlike = async () => {
         try {
-            const response = await fetch(`${apiUrl}/post/unlike`, {
+            const response = await fetch(`${apiUrl}/api/post/unlike`, {
                 method: "PUT",
                 body: JSON.stringify({
                     id: post._id,
@@ -71,7 +71,8 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
                     id: post._id
                 }),
                 headers: {
-                    "Content-type": "application/json",
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${loggedInUser.token}`,
                 },
             })
 
@@ -88,12 +89,14 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
         setTimeout(() => setShowPrompt(false), 6000)
     }
 
-    console.log(showMenu)
     return (
         post && (
             <Dialog
                 open={isOpen}
-                onClose={close}
+                onClose={() => {
+                    close()
+                    setShowMenu(false)
+                }}
             >
                 <DialogTitle
                     fontWeight="bold">
@@ -140,20 +143,22 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
                                             View prompt
                                         </Button>
                                     </li>
-                                    <Divider />
+                                    <Divider className="selectedDialog__menuDivider" />
+
                                     {author.id === loggedInUser.id && (
-                                        <Button variant="outlined" color="error" onClick={(e) => {
-                                            setShowConfirmDelete(true)
-                                            setShowMenu(false)
-                                        }}
-                                        >
-                                            Delete
-                                        </Button>
+                                        <li>
+                                            <Button variant="outlined" color="error" onClick={(e) => {
+                                                setShowConfirmDelete(true)
+                                                setShowMenu(false)
+                                            }}
+                                            >
+                                                Delete
+                                            </Button>
+                                        </li>
                                     )}
                                     <li>
-                                        <p>Click anywhere inside the image to close this menu.</p>
+                                        <p className="selectedDialog__menuTooltip">Click anywhere inside the image to close this menu.</p>
                                     </li>
-
                                 </ul>
                             </div>
                         )}

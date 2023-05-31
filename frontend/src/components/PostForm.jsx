@@ -37,31 +37,51 @@ export default function PostForm({ loggedInUser, onCreatePost, showForm, close }
     const [formErrors, setFormErrors] = useState([])
     const [placeholder, setPlaceholder] = useState("")
     const [isLoading, setIsLoading] = useState(false)
+    const [showDisclaimer, setShowDisclaimer] = useState(false)
 
     useEffect(() => {
         setPlaceholder(getRandomPlaceholder())
     }, [])
 
+    useEffect(() => {
+        let timeout;
+        if (isLoading) {
+            timeout = setTimeout(() => {
+                setShowDisclaimer(true);
+            }, 3000);
+        }
+
+        return () => {
+            clearTimeout(timeout);
+        };
+    }, [isLoading]);
 
     const createPost = async () => {
         try {
             setIsLoading(true)
-            const response = await fetch(`${apiUrl}/post/create`, {
+            const response = await fetch(`${apiUrl}/api/post/create`, {
                 method: "POST",
                 body: JSON.stringify({
                     title: title,
                     prompt: prompt
                 }),
                 headers: {
-                    "Content-type": "application/json",
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${loggedInUser.token}`
                 },
             })
 
             const data = await response.json()
+
+            if (!response.ok) {
+                throw Error(data.error)
+            }
+
             onCreatePost(data)
             setIsLoading(false)
+            setShowDisclaimer(false)
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
 
@@ -139,17 +159,20 @@ export default function PostForm({ loggedInUser, onCreatePost, showForm, close }
                     onChange={e => setPrompt(e.target.value)}
                     helperText={formErrors.filter(error => error.toLowerCase().includes("prompt"))}
                 />
-                <LoadingButton
-                    sx={isLoading ? {} : { fontWeight: 'bold' }}
-                    loading={isLoading}
-                    loadingPosition="start"
-                    size="large"
-                    fontSize="inherit"
-                    variant="contained"
-                    onClick={(e) => handleClick()}
-                >
-                    {isLoading ? "Dreaming" : "Dream"}
-                </LoadingButton>
+                <div className="postForm__bottomContainer">
+                    <LoadingButton
+                        sx={isLoading ? {} : { fontWeight: 'bold' }}
+                        loading={isLoading}
+                        loadingPosition="start"
+                        size="large"
+                        fontSize="inherit"
+                        variant="contained"
+                        onClick={(e) => handleClick()}
+                    >
+                        {isLoading ? "Dreaming" : "Dream"}
+                    </LoadingButton>
+                    <p className={showDisclaimer ? "postForm__loadingDisclaimer postForm__loadingDisclaimer--visible" : "postForm__loadingDisclaimer"}>This may take a little bit...</p>
+                </div>
             </form>
         </Dialog>
     )

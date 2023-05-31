@@ -2,17 +2,18 @@ import apiUrl from '../api'
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material'
 import './css/PostDialog.css'
 
-export default function PreviewPostDialog({ isOpen, post, close, updatePosts }) {
+export default function PreviewPostDialog({ isOpen, post, close, updatePosts, loggedInUser }) {
 
     const handleDelete = async () => {
         try {
-            const response = fetch(`${apiUrl}/post/delete`, {
+            const response = fetch(`${apiUrl}/api/post/delete`, {
                 method: "DELETE",
                 body: JSON.stringify({
                     id: post._id
                 }),
                 headers: {
-                    "Content-type": "application/json",
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${loggedInUser.token}`,
                 }
             })
 

@@ -13,27 +13,20 @@ import theme from './Theme'
 function App() {
   let [loggedInUser, setLoggedInUser] = useState(null)
 
-  const getUser = useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch(`${apiUrl}/auth/user`);
-        const data = await response.json();
-        setLoggedInUser({ username: data.username, id: data._id, avatar: data.avatar });
-      } catch (error) {
-        console.error(error);
-      }
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'))
+
+    if (user) {
+      setLoggedInUser(user)
     }
-
-    fetchData();
-  }, []);
-
-  // console.log(user)
+  }, [])
 
   const handleLogin = (user) => {
     setLoggedInUser(user)
   }
 
   const handleLogout = () => {
+    localStorage.removeItem('user')
     setLoggedInUser(null)
   }
 

@@ -14,19 +14,9 @@ export default function Header({ loggedInUser, handleLogout }) {
     const activePage = location.pathname
     const matches = useMediaQuery('(max-width:640px)')
 
-    // console.log(location)
-
     const logout = async () => {
-        try {
-            const response = await fetch(`${apiUrl}/auth/logout`, {
-                method: "POST"
-            });
-            const data = await response.json();
-            handleLogout();
-            navigate("/")
-        } catch (error) {
-            console.error(error);
-        }
+        handleLogout();
+        navigate("/")
     };
 
     return (

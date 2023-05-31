@@ -15,7 +15,7 @@ export default function ProfileByIdPage({ loggedInUser }) {
 
     const fetchUserInfo = async () => {
         try {
-            const response = await fetch(`${apiUrl}/user/userInfo/${params.id}`)
+            const response = await fetch(`${apiUrl}/api/user/userInfo/${params.id}`)
             const data = await response.json()
             setRequestedUser({ username: data.username, id: data._id, avatar: data.avatar })
         } catch (err) {
@@ -27,7 +27,7 @@ export default function ProfileByIdPage({ loggedInUser }) {
     async function fetchPosts() {
         try {
             if (requestedUser !== null) {
-                const response = await fetch(`${apiUrl}/post/user/${requestedUser.id}`);
+                const response = await fetch(`${apiUrl}/api/post/user/${requestedUser.id}`);
                 const profilePostsData = await response.json();
                 setProfilePosts(profilePostsData)
             }

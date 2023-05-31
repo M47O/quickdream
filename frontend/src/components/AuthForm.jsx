@@ -66,24 +66,26 @@ export default function AuthForm({ handleLogin }) {
     const login = async () => {
         try {
             if (username.length && !validationErrors.usernameErrors.length && !validationErrors.passwordErrors.length) {
-                const response = await fetch(`${apiUrl}/auth/login`, {
+                const response = await fetch(`${apiUrl}/api/user/login`, {
                     method: "POST",
-                    body: JSON.stringify({
-                        username: username,
-                        password: password
-                    }),
-                    headers: {
-                        "Content-type": "application/json",
-                    }
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, password }),
                 });
                 const data = await response.json();
-                if (data.error) {
+
+                if (!response.ok) {
                     throw new Error(data.error)
+                } else {
+                    //save user to local storage
+                    localStorage.setItem('user', JSON.stringify(data))
                 }
-                handleLogin({ username: data.username, id: data._id, avatar: data.avatar });
+
+
+                handleLogin({ username: data.username, id: data.id, avatar: data.avatar });
                 navigate("/profile");
             }
         } catch (error) {
+            console.error(error)
             if (String(error).split("Error: ").includes("No user exists")) {
                 setValidationErrors({
                     ...validationErrors,
@@ -96,25 +98,25 @@ export default function AuthForm({ handleLogin }) {
     const register = async () => {
         try {
             if (!validationErrors.usernameErrors.length && !validationErrors.passwordErrors.length && !validationErrors.confirmPasswordErrors.length) {
-                const response = await fetch(`${apiUrl}/auth/register`, {
+                const response = await fetch(`${apiUrl}/api/user/signup`, {
                     method: "POST",
-                    body: JSON.stringify({
-                        username: username,
-                        password: password
-                    }),
-                    headers: {
-                        "Content-type": "application/json",
-                    }
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, password }),
                 });
+
                 const data = await response.json();
-                if (data.error) {
+
+                if (!response.ok) {
                     throw new Error(data.error)
+                } else {
+                    //save user to local storage
+                    localStorage.setItem('user', JSON.stringify(data))
                 }
-                // Call login function after successful registration
-                await login();
+
             }
         } catch (error) {
-            if (String(error).split("Error: ").includes("User already exists")) {
+            console.error(error)
+            if (String(error).split("Error: ").includes("Username already in use")) {
                 setValidationErrors({
                     ...validationErrors,
                     usernameErrors: ["Someone's already using this username. Please try a different one."]
@@ -125,7 +127,27 @@ export default function AuthForm({ handleLogin }) {
 
     return (
         <form className="auth__form">
-            <div className="auth__toggle"><p className="auth__toggleLabel auth__toggleLabel--left" style={isLogin ? { fontWeight: 'bold' } : {}}>Log in</p><Switch onChange={() => setIsLogin(!isLogin)} /><p className="auth__toggleLabel auth__toggleLabel--right" style={isLogin ? {} : { fontWeight: 'bold' }}>Sign up</p></div>
+            <div className="auth__toggle">
+                <p className="auth__toggleLabel auth__toggleLabel--left"
+                    style={isLogin ? { fontWeight: 'bold' } : {}}
+                    onClick={() => {
+                        if (!isLogin) {
+                            setIsLogin(true)
+                        }
+                    }}
+                >
+                    Log in</p>
+                <Switch checked={!isLogin} onChange={() => setIsLogin(!isLogin)} />
+                <p className="auth__toggleLabel auth__toggleLabel--right"
+                    style={isLogin ? {} : { fontWeight: 'bold' }}
+                    onClick={() => {
+                        if (isLogin) {
+                            setIsLogin(false)
+                        }
+                    }}>
+                    Sign up
+                </p>
+            </div>
             <TextField
                 id="username"
                 name="username"

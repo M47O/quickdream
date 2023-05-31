@@ -127,7 +127,7 @@ module.exports.deletePost = async (req, res) => {
         //Delete from cloudinary
         await cloudinary.uploader.destroy(post.cloudinaryId)
         //Delete from db
-        await Post.remove({ _id: req.body.id })
+        await Post.deleteOne({ _id: req.body.id })
         console.log("Deleted post")
     } catch (err) {
         console.log(err)

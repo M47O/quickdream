@@ -1,39 +1,51 @@
 const mongoose = require("mongoose")
-const bcrypt = require("bcryptjs")
-const user = new mongoose.Schema({
-    username: { type: String, required: true },
+const bcrypt = require("bcrypt")
+
+
+const userSchema = new mongoose.Schema({
+    username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     avatar: { type: String, required: true }
 })
 
-// Password hash middleware
-user.pre("save", function save(next) {
-    const user = this;
-    if (!user.isModified("password")) {
-        return next();
+//static SIGNUP method
+userSchema.statics.signup = async function (username, password, avatar) {
+
+    //because User is being exported and doesn't necessarily exist yet, refer to the model as this
+    const exists = await this.findOne({ username })
+
+    if (exists) {
+        throw Error('Username already in use')
     }
-    bcrypt.genSalt(10, (err, salt) => {
-        if (err) {
-            return next(err);
-        }
-        bcrypt.hash(user.password, salt, (err, hash) => {
-            if (err) {
-                return next(err);
-            }
-            user.password = hash;
-            next();
-        });
-    });
-});
 
-// Helper method for validating user's password.
-user.methods.comparePassword = function comparePassword(
-    candidatePassword,
-    cb
-) {
-    bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
-        cb(err, isMatch);
-    });
-};
+    const salt = await bcrypt.genSalt(10)
+    const hash = await bcrypt.hash(password, salt)
 
-module.exports = mongoose.model("User", user)
+    const user = await this.create({ username, password: hash, avatar })
+
+    return user
+}
+
+//static LOGIN method
+userSchema.statics.login = async function (username, password) {
+    if (!username || !password) {
+        throw Error('Username and password cannot be empty.')
+    }
+
+    const user = await this.findOne({ username })
+
+    if (!user) {
+        throw Error("Incorrect username")
+    }
+
+    //user.password is the hashed password stored as a property of the user document in the db, password is the plain text password
+    const match = await bcrypt.compare(password, user.password)
+
+    if (!match) {
+        throw Error('Incorrect password')
+    }
+
+    return user
+}
+
+module.exports = mongoose.model("User", userSchema)

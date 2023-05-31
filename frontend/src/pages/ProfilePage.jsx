@@ -23,7 +23,7 @@ export default function ProfilePage({ loggedInUser }) {
     async function fetchPosts() {
         try {
             if (loggedInUser) {
-                const response = await fetch(`${apiUrl}/post/user/${loggedInUser.id}`);
+                const response = await fetch(`${apiUrl}/api/post/user/${loggedInUser.id}`);
                 const profilePostsData = await response.json();
                 setProfilePosts(profilePostsData)
             }
@@ -53,6 +53,7 @@ export default function ProfilePage({ loggedInUser }) {
                     isOpen={showPreview}
                     post={post}
                     updatePosts={fetchPosts}
+                    loggedInUser={loggedInUser}
                     close={() => {
                         setShowPreview(false)
                         setPost(null)
