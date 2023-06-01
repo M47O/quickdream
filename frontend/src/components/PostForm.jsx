@@ -62,8 +62,9 @@ export default function PostForm({ loggedInUser, onCreatePost, showForm, close }
             const response = await fetch(`${apiUrl}/api/post/create`, {
                 method: "POST",
                 body: JSON.stringify({
-                    title: title,
-                    prompt: prompt
+                    title: title.trim(),
+                    prompt: prompt.trim(),
+                    username: loggedInUser.username
                 }),
                 headers: {
                     "Content-Type": "application/json",

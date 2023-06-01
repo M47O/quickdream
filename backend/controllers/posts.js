@@ -77,7 +77,7 @@ module.exports.createPost = async (req, res) => {
         const generatedImage = await response.data.data[0].url
         console.log(generatedImage)
 
-        let public_id = `${req.user.username}/${req.body.title}`
+        let public_id = `${req.username}/${req.body.title}`
         let idExists;
         try {
             idExists = await cloudinary.api.resource(`posts/${public_id}`);
