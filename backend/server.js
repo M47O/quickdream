@@ -9,7 +9,7 @@ const connectDB = require("./config/database")
 const userRoutes = require('./routes/user')
 const postRoutes = require('./routes/post')
 
-app.use(cors({ origin: 'https://quickdream1.vercel.app' }))
+app.use(cors({ origin: '*' }))
 
 connectDB()
 
