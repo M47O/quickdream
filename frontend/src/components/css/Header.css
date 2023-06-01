@@ -8,6 +8,7 @@
     height: 100px;
     padding: 10px 145px;
     backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     background-color: rgba(0, 0, 0, 0);
     z-index: 1;
   }
