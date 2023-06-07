@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import apiUrl from '../api'
 import imgUrl from '../assets/blobanimation.svg'
+import arrow from '../assets/arrow.webp'
 import { Button, Icon } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import SelectedPostDialog from '../components/SelectedPostDialog'
@@ -43,6 +44,12 @@ export default function HomePage({ loggedInUser }) {
                     </div>
                     {loggedInUser ? <Link className="about__button" style={{ textDecoration: 'none' }} to='/profile'><Button size="large" fontSize="inherit" variant="contained">Create</Button></Link>
                         : <Link className="about__button" style={{ textDecoration: 'none' }} to='/auth'><Button size="large" fontSize="inherit" variant="contained">Sign up / Log in</Button></Link>}
+                    {!loggedInUser && (
+                        <div className="about__disclaimerContainer">
+                            <img className="about__arrow" src={arrow} />
+                            <p className="about__disclaimer">Don't want to sign up?<br />A guest account is available!</p>
+                        </div>
+                    )}
                 </div>
             </section>
 
