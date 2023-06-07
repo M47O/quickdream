@@ -86,7 +86,7 @@ export default function PostForm({ loggedInUser, onCreatePost, showForm, close }
         }
     }
 
-    const handleClick = e => {
+    const handleSubmit = e => {
 
         //Validation
         let filter = new Filter()
@@ -134,7 +134,12 @@ export default function PostForm({ loggedInUser, onCreatePost, showForm, close }
                     <CloseIcon />
                 </IconButton>
             </div>
-            <form className="postForm">
+            <form className="postForm"
+                onSubmit={(e) => {
+                    e.preventDefault()
+                    handleSubmit()
+                }}
+            >
                 <TextField
                     id="title"
                     name="title"
@@ -156,19 +161,18 @@ export default function PostForm({ loggedInUser, onCreatePost, showForm, close }
                     variant="outlined"
                     color="secondary"
                     multiline
-                    autoFocus={true}
                     onChange={e => setPrompt(e.target.value)}
                     helperText={formErrors.filter(error => error.toLowerCase().includes("prompt"))}
                 />
                 <div className="postForm__bottomContainer">
                     <LoadingButton
+                        type="submit"
                         sx={isLoading ? {} : { fontWeight: 'bold' }}
                         loading={isLoading}
                         loadingPosition="start"
                         size="large"
                         fontSize="inherit"
                         variant="contained"
-                        onClick={(e) => handleClick()}
                     >
                         {isLoading ? "Dreaming" : "Dream"}
                     </LoadingButton>
