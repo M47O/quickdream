@@ -41,11 +41,12 @@ export default function ProfileByIdPage({ loggedInUser }) {
     }, [params.id]);
 
     useEffect(() => {
-        if (requestedUser) {
-            fetchPosts();
-        }
         if (requestedUser && loggedInUser && (loggedInUser.id === requestedUser.id)) {
             navigate('/profile');
+        }
+
+        if (requestedUser) {
+            fetchPosts();
         }
     }, [requestedUser, loggedInUser]);
 
