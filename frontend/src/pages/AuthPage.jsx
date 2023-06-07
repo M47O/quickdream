@@ -8,23 +8,31 @@ import './css/AuthPage.css'
 export default function AuthPage({ loggedInUser, handleLogin }) {
   const [showGuestInfo, setShowGuestInfo] = useState(true)
   return (
-    loggedInUser ? <p>You're already signed in. Log out to access this page.</p> :
-      <div className="auth">
-        <AuthForm handleLogin={handleLogin} />
+    <div className="auth">
+      {loggedInUser ? (
+        <p className='auth__discl'>You're already signed in. Log out to access this page.</p>
+      ) : (
+        <>
+          <AuthForm handleLogin={handleLogin} />
 
-        {showGuestInfo && <div className="auth__guestInfo">
-          <p className="auth__guestText">As this is an <Tooltip followCursor={true} title="Minimum Viable Product"><span className="auth__tooltip">MVP</span></Tooltip> and not fully completed, you're welcome to sign up or log in with the guest account below.
-            <span className="auth__guestAccount">
-              <b>Username:</b> quickdream_guest<br />
-              <b>Password:</b> guest123
-            </span>
-          </p>
-          <div className="auth__closeContainer">
-            <IconButton onClick={() => setShowGuestInfo(false)}>
-              <CloseIcon />
-            </IconButton>
-          </div>
-        </div>}
-      </div >
-  )
+          {showGuestInfo && (
+            <div className="auth__guestInfo">
+              <p className="auth__guestText">
+                As this is an <Tooltip followCursor={true} title="Minimum Viable Product"><span className="auth__tooltip">MVP</span></Tooltip> and not fully completed, you're welcome to sign up or log in with the guest account below.
+                <span className="auth__guestAccount">
+                  <b>Username:</b> quickdream_guest<br />
+                  <b>Password:</b> guest123
+                </span>
+              </p>
+              <div className="auth__closeContainer">
+                <IconButton onClick={() => setShowGuestInfo(false)}>
+                  <CloseIcon />
+                </IconButton>
+              </div>
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
 }

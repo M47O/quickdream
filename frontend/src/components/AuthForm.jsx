@@ -86,10 +86,17 @@ export default function AuthForm({ handleLogin }) {
             }
         } catch (error) {
             console.error(error)
-            if (String(error).split("Error: ").includes("No user exists")) {
+            if (String(error).split("Error: ").includes("Incorrect username")) {
                 setValidationErrors({
                     ...validationErrors,
-                    usernameErrors: ["Username or password incorrect."]
+                    usernameErrors: ["Incorrect username."]
+                })
+            }
+
+            if (String(error).split("Error: ").includes("Incorrect password")) {
+                setValidationErrors({
+                    ...validationErrors,
+                    passwordErrors: ["Incorrect password."]
                 })
             }
         };
@@ -126,7 +133,12 @@ export default function AuthForm({ handleLogin }) {
     };
 
     return (
-        <form className="auth__form">
+        <form className="auth__form"
+            onSubmit={(e) => {
+                e.preventDefault()
+                isLogin ? login() : register()
+            }}
+        >
             <div className="auth__toggle">
                 <p className="auth__toggleLabel auth__toggleLabel--left"
                     style={isLogin ? { fontWeight: 'bold' } : {}}
@@ -230,14 +242,11 @@ export default function AuthForm({ handleLogin }) {
             }
 
             <Button
+                type="submit"
                 size="large"
                 fontSize="inherit"
                 variant="contained"
                 endIcon={isLogin && <Login />}
-                onClick={(e) => {
-                    e.preventDefault()
-                    isLogin ? login() : register()
-                }}
             >
                 {isLogin ? "Log in" : "Sign up"}
             </Button>
