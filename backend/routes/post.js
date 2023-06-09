@@ -3,6 +3,7 @@ const router = express.Router();
 const postsController = require("../controllers/posts");
 const authMiddleware = require("../middleware/authMiddleware")
 
+router.get("/all", postsController.getAllPosts)
 router.get("/user/:id", postsController.getPostsByUserId)
 router.get("/superlatives", postsController.getSuperlatives)
 router.post("/create", authMiddleware, postsController.createPost)

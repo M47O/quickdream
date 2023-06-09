@@ -10,8 +10,12 @@ const post = new mongoose.Schema({
         ref: 'User',
         default: [],
     },
-    author: {
+    authorId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+    },
+    authorUsername: {
+        type: String,
         ref: "User",
     },
     createdAt: {

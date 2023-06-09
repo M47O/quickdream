@@ -6,8 +6,8 @@ import './css/ProfilePage.css'
 
 export default function ProfileByIdPage({ loggedInUser }) {
     const [requestedUser, setRequestedUser] = useState(null)
-    const [showSelctedPost, setShowSelectedPost] = useState(false)
-    const [profilePosts, setProfilePosts] = useState([])
+    const [showSelectedPost, setShowSelectedPost] = useState(false)
+    const [displayedPosts, setDisplayedPosts] = useState([])
     const [selectedPost, setSelectedPost] = useState(null)
 
     const params = useParams()
@@ -29,7 +29,7 @@ export default function ProfileByIdPage({ loggedInUser }) {
             if (requestedUser !== null) {
                 const response = await fetch(`${apiUrl}/api/post/user/${requestedUser.id}`);
                 const profilePostsData = await response.json();
-                setProfilePosts(profilePostsData)
+                setDisplayedPosts(profilePostsData)
             }
         } catch (err) {
             console.error(err);
@@ -55,10 +55,10 @@ export default function ProfileByIdPage({ loggedInUser }) {
             <div className="profile">
                 <section className="profilePosts">
                     <h2 className="profilePosts__heading">{requestedUser.username}'s Posts</h2>
-                    {profilePosts.length > 0 ? (
+                    {displayedPosts.length > 0 ? (
 
                         <div className="postGrid">
-                            {profilePosts.map(post => (
+                            {displayedPosts.map(post => (
                                 <div key={post._id}
                                     className="postGrid__imageContainer"
                                     onClick={() => {
@@ -85,7 +85,7 @@ export default function ProfileByIdPage({ loggedInUser }) {
                     <SelectedPostDialog
                         close={() => setShowSelectedPost(false)}
                         post={selectedPost}
-                        isOpen={showSelctedPost}
+                        isOpen={showSelectedPost}
                         author={requestedUser}
                         loggedInUser={loggedInUser}
                     />

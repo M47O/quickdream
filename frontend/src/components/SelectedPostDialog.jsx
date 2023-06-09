@@ -7,7 +7,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import MenuIcon from '@mui/icons-material/Menu'
 import './css/PostDialog.css'
 
-export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, author, profilePosts, setProfilePosts }) {
+export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, author, displayedPosts, setDisplayedPosts }) {
     const [isLiked, setIsLiked] = useState(false)
     const [showMenu, setShowMenu] = useState(false)
     const [showPrompt, setShowPrompt] = useState(false)
@@ -65,7 +65,7 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
 
     const handleDelete = async () => {
         try {
-            const response = fetch(`${apiUrl}/post/delete`, {
+            const response = fetch(`${apiUrl}/api/post/delete`, {
                 method: "DELETE",
                 body: JSON.stringify({
                     id: post._id
@@ -77,7 +77,7 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
             })
 
             close()
-            setProfilePosts(profilePosts.filter(p => p._id !== post._id))
+            setDisplayedPosts(displayedPosts.filter(p => p._id !== post._id))
         } catch (err) {
             console.error("Error deleting post: ", err)
         }

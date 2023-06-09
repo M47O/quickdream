@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import apiUrl from '../api';
-import { Button, Avatar, Drawer, useMediaQuery, fabClasses } from '@mui/material'
-import { Logout as LogoutIcon, Menu as MenuIcon, Home as HomeIcon } from '@mui/icons-material/';
+import { Button, Avatar, useMediaQuery, Divider } from '@mui/material'
+import { Logout as LogoutIcon, Menu as MenuIcon, Home as HomeIcon, DynamicFeed as DynamicFeedIcon } from '@mui/icons-material/';
 import MobileMenu from '../components/MobileMenu'
 import "./css/Header.css"
 
@@ -32,9 +31,13 @@ export default function Header({ loggedInUser, handleLogout }) {
                         <MenuIcon />
                     </Button>
                 ) : (
+                    /* ---- NAV LINKS ---- */
                     <ul className="header__list">
                         <li className={activePage === '/' ? 'header__activePage' : ''}>
                             <Link to="/">Home <HomeIcon /></Link>
+                        </li>
+                        <li className={activePage === '/feed' ? 'header__activePage' : ''}>
+                            <Link to="/feed">Feed <DynamicFeedIcon sx={{ marginLeft: "3px" }} /></Link>
                         </li>
                         {loggedInUser && <li>
                             <Link
@@ -79,7 +82,7 @@ export default function Header({ loggedInUser, handleLogout }) {
                 isOpen={showMobileMenu}
                 close={() => setShowMobileMenu(false)}
             />
-        </header>
+        </header >
     )
 
 }

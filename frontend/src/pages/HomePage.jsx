@@ -12,8 +12,6 @@ import './css/HomePage.css'
 export default function HomePage({ loggedInUser }) {
     const [mostLiked, setMostLiked] = useState([])
     const [mostRecent, setMostRecent] = useState([])
-    const [selectedPost, setSelectedPost] = useState(null)
-    const [showSelectedPost, setShowSelectedPost] = useState(false)
 
     useEffect(() => {
         const getSuperlatives = async () => {
@@ -66,7 +64,7 @@ export default function HomePage({ loggedInUser }) {
                             <div className="showcase__infoContainer">
                                 <div className="showcase__titleAuthor">
                                     <p className="showcase__imageTitle">{post.title.length > 26 ? post.title.slice(0, 20) + "..." : post.title}</p>
-                                    <Link className="showcase__viewAuthor" to={`/profile/${post.author}`}>View author »</Link>
+                                    <Link className="showcase__viewAuthor" to={`/profile/${post.authorId}`}>View author »</Link>
                                 </div>
                                 <div className="showcase__likesContainer">
                                     <Icon><FavoriteIcon sx={{ color: 'red' }} /></Icon>
@@ -88,7 +86,7 @@ export default function HomePage({ loggedInUser }) {
                             <div className="showcase__infoContainer">
                                 <div className="showcase__titleAuthor">
                                     <p className="showcase__imageTitle">{post.title.length > 26 ? post.title.slice(0, 20) + "..." : post.title}</p>
-                                    <Link className="showcase__viewAuthor" to={`/profile/${post.author}`}>View author »</Link>
+                                    <Link className="showcase__viewAuthor" to={`/profile/${post.authorId}`}>View author »</Link>
                                 </div>
                                 <div className="showcase__likesContainer">
                                     <Icon><FavoriteIcon sx={{ color: 'red' }} /></Icon>

@@ -81,7 +81,7 @@ export default function AuthForm({ handleLogin }) {
                 }
 
 
-                handleLogin({ username: data.username, id: data.id, avatar: data.avatar });
+                handleLogin({ username: data.username, id: data.id, avatar: data.avatar, token: data.token });
                 navigate("/profile");
             }
         } catch (error) {

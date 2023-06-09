@@ -1,0 +1,15 @@
+.feed {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+
+}
+
+.feedPosts {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 3px 3px hsl(340, 31%, 90%), 3px 3px 12px hsl(340, 31%, 92%), 3px 3px 16px hsl(340, 31%, 93%);
+    padding: 10px;
+}
