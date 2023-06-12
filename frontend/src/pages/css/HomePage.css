@@ -193,7 +193,6 @@
     .about__disclaimer{
         font-size: 12px;
         margin-top: 5px;
-        transform: rotate(3deg);
     }
 
     .showcase {
@@ -202,5 +201,15 @@
         margin-top: 100px;
     }
 
+}
+
+@media screen and (max-width: 350px) {
+    .about__disclaimerContainer{
+    margin-left: 70px;
+    }
+
+    .about__tagline {
+        font-size: 4.75rem;
+    }
 }
 
