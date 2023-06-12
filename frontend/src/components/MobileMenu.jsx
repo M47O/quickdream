@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, Button, Divider } from '@mui/material'
-import { Logout as LogoutIcon, Menu as MenuIcon, Home as HomeIcon, Person2 } from '@mui/icons-material/';
+import { Logout as LogoutIcon, Menu as MenuIcon, Home as HomeIcon, Person2, DynamicFeed } from '@mui/icons-material/';
 import Person2Icon from '@mui/icons-material/Person2';
 import './css/MobileMenu.css'
 
@@ -62,6 +62,14 @@ export default function MobileMenu({ loggedInUser, close, isOpen, handleLogout }
                         </ListItemText>
                     </ListItem>
                 }
+                <ListItem onClick={close}>
+                    <ListItemIcon sx={{ display: 'flex', alignItems: 'center' }}>
+                        <DynamicFeed />
+                    </ListItemIcon>
+                    <ListItemText>
+                        <Link to="/feed" className="mobileMenu__link">Feed</Link>
+                    </ListItemText>
+                </ListItem>
                 {loggedInUser &&
                     <Link
                         onClick={() => {
