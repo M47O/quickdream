@@ -1,15 +1,49 @@
 .feed {
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .feedPosts {
-    display: flex;
-    position: relative;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: 3px 3px hsl(340, 31%, 90%), 3px 3px 12px hsl(340, 31%, 92%), 3px 3px 16px hsl(340, 31%, 93%);
-    padding: 10px;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 3px 3px hsl(340, 31%, 90%), 3px 3px 12px hsl(340, 31%, 92%),
+    3px 3px 16px hsl(340, 31%, 93%);
+  padding: 10px;
+}
+
+.feed__selectionContainer {
+  display: flex;
+  gap: 3px;
+  width: 100%;
+}
+
+.feed__selection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  background-color: hsl(340, 31%, 90%);
+  box-shadow: 1px 1px hsl(340, 31%, 90%), 3px 3px 12px hsl(340, 31%, 92%),
+    1px 3px 16px hsl(340, 31%, 93%);
+  border-radius: 3px 3px 0 0;
+  user-select: none;
+  cursor: pointer;
+}
+
+.feed__selection:first-of-type {
+  border-radius: 8px 3px 0 0;
+}
+
+.feed__selection:last-of-type {
+  border-radius: 3px 8px 0 0;
+}
+
+.feed__selection--selected {
+  background-color: hsl(340, 34%, 94%);
+  cursor: default;
+  padding-bottom: 6px;
 }

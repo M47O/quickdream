@@ -1,24 +1,33 @@
 import { useEffect, useState } from 'react'
 import apiUrl from '../api'
-import PostForm from '../components/PostForm'
-import PreviewPostDialog from '../components/PreviewPostDialog'
 import SelectedPostDialog from '../components/SelectedPostDialog'
 import { IconButton } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import PublicIcon from '@mui/icons-material/Public';
+import PeopleIcon from '@mui/icons-material/People';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+
 import './css/FeedPage.css'
 import './css/PostGrid.css'
 
 export default function ProfilePage({ loggedInUser }) {
-    const [feedPosts, setFeedPosts] = useState([])
+    const [allPosts, setAllPosts] = useState([])
+    const [followedPosts, setFollowedPosts] = useState([])
+    const [likedPosts, setLikedPosts] = useState([])
+    const [bookmarkedPosts, setBookmarkedPosts] = useState([])
     const [selectedPost, setSelectedPost] = useState(null)
     const [showSelectedPost, setShowSelectedPost] = useState(false)
+    const [selectedFeed, setSelectedFeed] = useState("all")
 
     async function fetchPosts() {
         try {
             const response = await fetch(`${apiUrl}/api/post/all`);
-            const feedPostsData = await response.json();
-            setFeedPosts(feedPostsData)
+            const allPostsData = await response.json();
+            setAllPosts(allPostsData)
+            setLikedPosts(allPostsData.filter(post => post.likedBy.includes(loggedInUser.id)))
+            setBookmarkedPosts(allPostsData.filter(post => post.bookmarkedBy.includes(loggedInUser.id)))
 
+            //followed posts
         } catch (err) {
             console.error(err);
         }
@@ -28,12 +37,48 @@ export default function ProfilePage({ loggedInUser }) {
         fetchPosts();
     }, []);
 
+    function selectFeed(feed) {
+        setSelectedFeed(feed)
+    }
+
     return (
         <div className="feed">
+            {loggedInUser && <div className="feed__selectionContainer">
+                <span
+                    title="All Posts"
+                    className={selectedFeed === "all" ? "feed__selection feed__selection--selected" : "feed__selection"}
+                    onClick={() => selectFeed("all")}
+                >
+                    <PublicIcon />
+                </span>
+                <span
+                    title="Posts from Users You Follow"
+                    className={selectedFeed === "followed" ? "feed__selection feed__selection--selected" : "feed__selection"}
+                    onClick={() => selectFeed("followed")}
+                >
+                    <PeopleIcon />
+                </span>
+                <span
+                    title="Liked Posts"
+                    className={selectedFeed === "liked" ? "feed__selection feed__selection--selected" : "feed__selection"}
+                    onClick={() => selectFeed("liked")}
+                >
+                    <FavoriteIcon />
+                </span>
+                <span
+                    title="Bookmarked Posts"
+                    className={selectedFeed === "bookmarked" ? "feed__selection feed__selection--selected" : "feed__selection"}
+                    onClick={() => selectFeed("bookmarked")}
+                >
+                    <BookmarkIcon />
+                </span>
+            </div>}
             <section className="feedPosts">
                 {!loggedInUser && <p style={{ marginBottom: '10px', textAlign: 'center' }}>Log in to interact with posts <br /> and view your personalized feed</p>}
                 <div className="postGrid postGrid--feed">
-                    {feedPosts.map(post => (
+
+                    {/* Show all posts */}
+                    {selectedFeed === "all" && allPosts.map(post => (
                         <div key={post._id}
                             className={loggedInUser ? "postGrid__imageContainer" : "postGrid__imageContainer postGrid__imageContainer--defaultCursor"}
                             onClick={() => {
@@ -53,6 +98,49 @@ export default function ProfilePage({ loggedInUser }) {
                             </div>
                         </div>
                     ))}
+                    {/* Show liked posts */}
+                    {selectedFeed === "liked" && (likedPosts.length ? likedPosts.map(post => (
+                        <div key={post._id}
+                            className={loggedInUser ? "postGrid__imageContainer" : "postGrid__imageContainer postGrid__imageContainer--defaultCursor"}
+                            onClick={() => {
+                                if (loggedInUser) {
+                                    setSelectedPost(post)
+                                    setShowSelectedPost(true)
+                                }
+                            }}
+                        >
+                            <img
+                                className="postGrid__image"
+                                src={post.image}
+                                alt={`Image generated by AI with the prompt ${post.prompt}`}
+                            />
+                            <div className="postGrid__titleContainer">
+                                <p className="postGrid__imageTitle">{post.title.length > 26 ? post.title.slice(0, 20) + "..." : post.title}</p>
+                            </div>
+                        </div>
+                    )) : <p class="postGrid__noPostDisclaimer">You haven't liked any posts! <br /> Like a post and it will appear here.</p>)}
+                    {/* Show bookmarked posts */}
+                    {selectedFeed === "bookmarked" && (bookmarkedPosts.length ? bookmarkedPosts.map(post => (
+                        <div key={post._id}
+                            className={loggedInUser ? "postGrid__imageContainer" : "postGrid__imageContainer postGrid__imageContainer--defaultCursor"}
+                            onClick={() => {
+                                if (loggedInUser) {
+                                    setSelectedPost(post)
+                                    setShowSelectedPost(true)
+                                }
+                            }}
+                        >
+                            <img
+                                className="postGrid__image"
+                                src={post.image}
+                                alt={`Image generated by AI with the prompt ${post.prompt}`}
+                            />
+                            <div className="postGrid__titleContainer">
+                                <p className="postGrid__imageTitle">{post.title.length > 26 ? post.title.slice(0, 20) + "..." : post.title}</p>
+                            </div>
+                        </div>
+                    )) : <p class="postGrid__noPostDisclaimer">You haven't bookmarked any posts! <br /> Bookmark a post and it will appear here.</p>)}
+
                 </div>
 
                 <SelectedPostDialog
@@ -61,8 +149,8 @@ export default function ProfilePage({ loggedInUser }) {
                     isOpen={showSelectedPost}
                     author={{ id: selectedPost?.authorId, username: selectedPost?.authorUsername }}
                     loggedInUser={loggedInUser}
-                    displayedPosts={feedPosts}
-                    setPosts={setFeedPosts}
+                    displayedPosts={allPosts}
+                    setPosts={setAllPosts}
                 />
             </section >
         </div >
