@@ -19,9 +19,6 @@ const likePost = async (req, res) => {
     try {
         const post = await Post.findById({ _id: req.body.id })
 
-        console.log('Id: ', req.body.id)
-        console.log('Liker: ', req.body.liker)
-
         if (!post.likedBy.includes(req.body.liker)) {
             await Post.findOneAndUpdate(
                 { _id: req.body.id },
@@ -53,6 +50,44 @@ const unlikePost = async (req, res) => {
         res.send("Successfully unliked post")
     } catch (err) {
         console.log("Error unliking post: ", err)
+    }
+}
+
+const bookmarkPost = async (req, res) => {
+    try {
+        const post = await Post.findById({ _id: req.body.id })
+
+        console.log(post.bookmarkedBy)
+
+        if (!post.bookmarkedBy.includes(req.body.bookmarker)) {
+            await Post.findOneAndUpdate(
+                { _id: req.body.id },
+                {
+                    $push: { bookmarkedBy: req.body.bookmarker },
+                },
+            )
+        }
+        res.send("Successfully bookmarked post")
+    } catch (err) {
+        console.log("Error bookmarking post: ", err)
+    }
+}
+
+const unbookmarkPost = async (req, res) => {
+    try {
+        const post = await Post.findById({ _id: req.body.id })
+
+        if (post.bookmarkedBy.includes(req.body.bookmarker)) {
+            await Post.findOneAndUpdate(
+                { _id: req.body.id },
+                {
+                    $pull: { bookmarkedBy: req.body.bookmarker },
+                },
+            )
+        }
+        res.send("Successfully unbookmarked post")
+    } catch (err) {
+        console.log("Error unbookmarking post: ", err)
     }
 }
 
@@ -147,4 +182,14 @@ const deletePost = async (req, res) => {
     }
 }
 
-module.exports = { getAllPosts, likePost, unlikePost, getPostsByUserId, getSuperlatives, createPost, deletePost }
+module.exports = {
+    getAllPosts,
+    likePost,
+    unlikePost,
+    bookmarkPost,
+    unbookmarkPost,
+    getPostsByUserId,
+    getSuperlatives,
+    createPost,
+    deletePost
+}

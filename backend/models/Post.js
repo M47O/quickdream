@@ -10,6 +10,11 @@ const post = new mongoose.Schema({
         ref: 'User',
         default: [],
     },
+    bookmarkedBy: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'User',
+        default: [],
+    },
     authorId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
