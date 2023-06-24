@@ -9,7 +9,7 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import MenuIcon from '@mui/icons-material/Menu'
 import './css/PostDialog.css'
 
-export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, author, displayedPosts, setDisplayedPosts, bookmarkedPosts, likedPosts, updateBookmarkedPosts, updateLikedPosts }) {
+export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, author, displayedPosts, setDisplayedPosts, bookmarkedPosts, likedPosts, allPosts, updateBookmarkedPosts, updateLikedPosts, updateAllPosts }) {
     const [isLiked, setIsLiked] = useState(false)
     const [isBookmarked, setIsBookmarked] = useState(false)
     const [showMenu, setShowMenu] = useState(false)
@@ -42,9 +42,18 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
             })
 
             setIsLiked(true)
+
             post.likes += 1
             post.likedBy = [...post.likedBy, loggedInUser.id]
-            updateLikedPosts([...likedPosts, post])
+
+            if (allPosts) {
+                //Update allPosts
+                const postIndex = allPosts.findIndex(p => p._id === post._id);
+                const updatedPosts = [...allPosts];
+                updatedPosts[postIndex] = post;
+                updateAllPosts(updatedPosts);
+            }
+
         } catch (err) {
             console.error('Error liking post: ', err)
         }
@@ -67,7 +76,14 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
             post.likes -= 1
 
             post.likedBy = post.likedBy.filter(liker => liker !== loggedInUser.id)
-            updateLikedPosts(likedPosts.filter(p => p._id !== post._id))
+
+            if (allPosts) {
+                //Update allPosts
+                const postIndex = allPosts.findIndex(p => p._id === post._id);
+                const updatedPosts = [...allPosts];
+                updatedPosts[postIndex] = post;
+                updateAllPosts(updatedPosts);
+            }
         } catch (err) {
             console.error('Error unliking post: ', err)
         }
@@ -86,7 +102,15 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
                 },
             })
             setIsBookmarked(true)
-            updateBookmarkedPosts([...bookmarkedPosts, { ...post, bookmarkedBy: [...post.bookmarkedBy, loggedInUser.id] }]);
+
+            if (allPosts) {
+                //Update allPosts
+                post.bookmarkedBy = [post.bookmarkedBy, loggedInUser.id]
+                const postIndex = allPosts.findIndex(p => p._id === post._id);
+                const updatedPosts = [...allPosts];
+                updatedPosts[postIndex] = post;
+                updateAllPosts(updatedPosts);
+            }
 
         } catch (err) {
             console.error('Error bookmarking post: ', err)
@@ -107,11 +131,18 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
             })
 
             setIsBookmarked(false)
-            post.bookmarkedBy = post.bookmarkedBy.filter(id => id !== loggedInUser.id)
-            updateBookmarkedPosts(prevBookmarkedPosts => prevBookmarkedPosts.filter(p => p._id !== post._id))
+
+            if (allPosts) {
+                post.bookmarkedBy = post.bookmarkedBy.filter(id => id !== loggedInUser.id)
+                //Update allPosts
+                const postIndex = allPosts.findIndex(p => p._id === post._id);
+                const updatedPosts = [...allPosts];
+                updatedPosts[postIndex] = post;
+                updateAllPosts(updatedPosts);
+            }
 
         } catch (err) {
-            console.error('Error unliking post: ', err)
+            console.error('Error unboomarking post: ', err)
         }
     }
 

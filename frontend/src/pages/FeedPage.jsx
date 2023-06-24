@@ -42,6 +42,8 @@ export default function FeedPage({ loggedInUser }) {
         }
     }, [allPosts]);
 
+    console.log(allPosts)
+
     function selectFeed(feed) {
         setSelectedFeed(feed)
     }
@@ -49,8 +51,13 @@ export default function FeedPage({ loggedInUser }) {
     function updateBookmarkedPosts(updatedPosts) {
         setBookmarkedPosts(updatedPosts)
     }
+
     function updateLikedPosts(updatedPosts) {
         setLikedPosts(updatedPosts)
+    }
+
+    function updateAllPosts(updatedPosts) {
+        setAllPosts(updatedPosts)
     }
 
 
@@ -174,6 +181,8 @@ export default function FeedPage({ loggedInUser }) {
                     bookmarkedPosts={bookmarkedPosts}
                     updateLikedPosts={updateLikedPosts}
                     likedPosts={likedPosts}
+                    updateAllPosts={updateAllPosts}
+                    allPosts={allPosts}
                 />
             </section >
         </div >
