@@ -57,8 +57,6 @@ const bookmarkPost = async (req, res) => {
     try {
         const post = await Post.findById({ _id: req.body.id })
 
-        console.log(post.bookmarkedBy)
-
         if (!post.bookmarkedBy.includes(req.body.bookmarker)) {
             await Post.findOneAndUpdate(
                 { _id: req.body.id },

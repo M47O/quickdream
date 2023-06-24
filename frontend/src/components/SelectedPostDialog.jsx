@@ -4,11 +4,14 @@ import apiUrl from '../api'
 import { Dialog, DialogTitle, DialogContent, IconButton, Divider, Button } from '@mui/material'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import MenuIcon from '@mui/icons-material/Menu'
 import './css/PostDialog.css'
 
-export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, author, displayedPosts, setDisplayedPosts }) {
+export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, author, displayedPosts, setDisplayedPosts, bookmarkedPosts, likedPosts, updateBookmarkedPosts, updateLikedPosts }) {
     const [isLiked, setIsLiked] = useState(false)
+    const [isBookmarked, setIsBookmarked] = useState(false)
     const [showMenu, setShowMenu] = useState(false)
     const [showPrompt, setShowPrompt] = useState(false)
     const [showConfirmDelete, setShowConfirmDelete] = useState(false)
@@ -18,6 +21,10 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
     useEffect(() => {
         if (post && post.likedBy.includes(loggedInUser.id)) {
             setIsLiked(true)
+        }
+
+        if (post && post.bookmarkedBy.includes(loggedInUser.id)) {
+            setIsBookmarked(true)
         }
     }, [[post]])
 
@@ -36,6 +43,8 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
 
             setIsLiked(true)
             post.likes += 1
+            post.likedBy = [...post.likedBy, loggedInUser.id]
+            updateLikedPosts([...likedPosts, post])
         } catch (err) {
             console.error('Error liking post: ', err)
         }
@@ -58,6 +67,49 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
             post.likes -= 1
 
             post.likedBy = post.likedBy.filter(liker => liker !== loggedInUser.id)
+            updateLikedPosts(likedPosts.filter(p => p._id !== post._id))
+        } catch (err) {
+            console.error('Error unliking post: ', err)
+        }
+    }
+
+    const handleBookmark = async () => {
+        try {
+            const response = await fetch(`${apiUrl}/api/post/bookmark`, {
+                method: "PUT",
+                body: JSON.stringify({
+                    id: post._id,
+                    bookmarker: loggedInUser.id
+                }),
+                headers: {
+                    "Content-type": "application/json",
+                },
+            })
+            setIsBookmarked(true)
+            updateBookmarkedPosts([...bookmarkedPosts, { ...post, bookmarkedBy: [...post.bookmarkedBy, loggedInUser.id] }]);
+
+        } catch (err) {
+            console.error('Error bookmarking post: ', err)
+        }
+    }
+
+    const handleUnbookmark = async () => {
+        try {
+            const response = await fetch(`${apiUrl}/api/post/unbookmark`, {
+                method: "PUT",
+                body: JSON.stringify({
+                    id: post._id,
+                    bookmarker: loggedInUser.id
+                }),
+                headers: {
+                    "Content-type": "application/json",
+                },
+            })
+
+            setIsBookmarked(false)
+            post.bookmarkedBy = post.bookmarkedBy.filter(id => id !== loggedInUser.id)
+            updateBookmarkedPosts(prevBookmarkedPosts => prevBookmarkedPosts.filter(p => p._id !== post._id))
+
         } catch (err) {
             console.error('Error unliking post: ', err)
         }
@@ -96,6 +148,8 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
                 onClose={() => {
                     close()
                     setShowMenu(false)
+                    setIsLiked(false)
+                    setIsBookmarked(false)
                 }}
             >
                 <DialogTitle
@@ -194,11 +248,16 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
                         >
                             {author.username}
                         </Link>
-                        <div className="selectedDialog__likesContainer">
-                            <IconButton onClick={isLiked ? handleUnlike : handleLike}>
-                                {isLiked ? <FavoriteIcon sx={{ color: 'red' }} /> : <FavoriteBorderIcon sx={{ color: 'red' }} />}
+                        <div className="selectedDialog__infoRight">
+                            <div className="selectedDialog__likesContainer">
+                                <IconButton onClick={isLiked ? handleUnlike : handleLike}>
+                                    {isLiked ? <FavoriteIcon sx={{ color: 'red' }} /> : <FavoriteBorderIcon sx={{ color: 'red' }} />}
+                                </IconButton>
+                                <span>{post.likes}</span>
+                            </div>
+                            <IconButton onClick={isBookmarked ? handleUnbookmark : handleBookmark}>
+                                {isBookmarked ? <BookmarkIcon style={{ color: "var(--color-font-primary)" }} /> : <BookmarkBorderIcon style={{ color: "var(--color-font-primary)" }} />}
                             </IconButton>
-                            <span>{post.likes}</span>
                         </div>
                     </div>
                 </DialogContent>

@@ -10,7 +10,7 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import './css/FeedPage.css'
 import './css/PostGrid.css'
 
-export default function ProfilePage({ loggedInUser }) {
+export default function FeedPage({ loggedInUser }) {
     const [allPosts, setAllPosts] = useState([])
     const [followedPosts, setFollowedPosts] = useState([])
     const [likedPosts, setLikedPosts] = useState([])
@@ -24,8 +24,6 @@ export default function ProfilePage({ loggedInUser }) {
             const response = await fetch(`${apiUrl}/api/post/all`);
             const allPostsData = await response.json();
             setAllPosts(allPostsData)
-            setLikedPosts(allPostsData.filter(post => post.likedBy.includes(loggedInUser.id)))
-            setBookmarkedPosts(allPostsData.filter(post => post.bookmarkedBy.includes(loggedInUser.id)))
 
             //followed posts
         } catch (err) {
@@ -37,9 +35,25 @@ export default function ProfilePage({ loggedInUser }) {
         fetchPosts();
     }, []);
 
+    useEffect(() => {
+        if (loggedInUser) {
+            setLikedPosts(allPosts.filter(post => post.likedBy.includes(loggedInUser.id)));
+            setBookmarkedPosts(allPosts.filter(post => post.bookmarkedBy.includes(loggedInUser.id)));
+        }
+    }, [allPosts]);
+
     function selectFeed(feed) {
         setSelectedFeed(feed)
     }
+
+    function updateBookmarkedPosts(updatedPosts) {
+        setBookmarkedPosts(updatedPosts)
+    }
+    function updateLikedPosts(updatedPosts) {
+        setLikedPosts(updatedPosts)
+    }
+
+
 
     return (
         <div className="feed">
@@ -118,7 +132,7 @@ export default function ProfilePage({ loggedInUser }) {
                                 <p className="postGrid__imageTitle">{post.title.length > 26 ? post.title.slice(0, 20) + "..." : post.title}</p>
                             </div>
                         </div>
-                    )) : <p class="postGrid__noPostDisclaimer">You haven't liked any posts! <br /> Like a post and it will appear here.</p>)}
+                    )) : <p className="postGrid__noPostDisclaimer">You haven't liked any posts! <br /> Like a post and it will appear here.</p>)}
                     {/* Show bookmarked posts */}
                     {selectedFeed === "bookmarked" && (bookmarkedPosts.length ? bookmarkedPosts.map(post => (
                         <div key={post._id}
@@ -139,18 +153,27 @@ export default function ProfilePage({ loggedInUser }) {
                                 <p className="postGrid__imageTitle">{post.title.length > 26 ? post.title.slice(0, 20) + "..." : post.title}</p>
                             </div>
                         </div>
-                    )) : <p class="postGrid__noPostDisclaimer">You haven't bookmarked any posts! <br /> Bookmark a post and it will appear here.</p>)}
+                    )) : <p className="postGrid__noPostDisclaimer">You haven't bookmarked any posts! <br /> Bookmark a post and it will appear here.</p>)}
 
                 </div>
 
                 <SelectedPostDialog
-                    close={() => setShowSelectedPost(false)}
+                    close={() => {
+                        setShowSelectedPost(false)
+                        setSelectedPost(null)
+                    }}
                     post={selectedPost}
                     isOpen={showSelectedPost}
                     author={{ id: selectedPost?.authorId, username: selectedPost?.authorUsername }}
                     loggedInUser={loggedInUser}
-                    displayedPosts={allPosts}
-                    setPosts={setAllPosts}
+                    displayedPosts={
+                        selectedFeed === "all" ? allPosts : selectedFeed === "followed" ? followedPosts : selectedFeed === "liked" ? likedPosts : selectedFeed === "bookmarked" ? bookmarkedPosts : null
+                    }
+                    setDisplayedPosts={setAllPosts}
+                    updateBookmarkedPosts={updateBookmarkedPosts}
+                    bookmarkedPosts={bookmarkedPosts}
+                    updateLikedPosts={updateLikedPosts}
+                    likedPosts={likedPosts}
                 />
             </section >
         </div >
