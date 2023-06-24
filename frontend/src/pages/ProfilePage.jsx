@@ -105,8 +105,8 @@ export default function ProfilePage({ loggedInUser }) {
                         isOpen={showSelectedPost}
                         author={loggedInUser}
                         loggedInUser={loggedInUser}
-                        profilePosts={profilePosts}
-                        setProfilePosts={setProfilePosts}
+                        displayedPosts={profilePosts}
+                        setDisplayedPosts={setProfilePosts}
                     />
                 </section >
 
