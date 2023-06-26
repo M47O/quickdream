@@ -2,7 +2,6 @@
   display: grid;
   grid-template-columns: auto auto auto;
   gap: 2px;
-  user-select: none;
 }
 
 .postGrid--feed {
@@ -13,6 +12,7 @@
   position: relative;
   max-width: 250px;
   cursor: pointer;
+  user-select: none;
 }
 
 .postGrid__imageContainer--defaultCursor {
