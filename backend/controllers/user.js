@@ -15,7 +15,7 @@ const loginUser = async (req, res) => {
 
         const token = createToken(user._id)
 
-        res.status(200).json({ username, token, id: user._id, avatar: user.avatar })
+        res.status(200).json({ username, token, id: user._id, avatar: user.avatar, followedUsers: user.followedUsers })
     } catch (error) {
         res.status(400).json({ error: error.message })
     }
@@ -63,4 +63,35 @@ const getUserInfo = async (req, res) => {
     }
 }
 
-module.exports = { signupUser, loginUser, getUserInfo }
+const followUser = async (req, res) => {
+    try {
+        console.log(req.body)
+        await User.findOneAndUpdate(
+            { _id: req.body.id },
+            {
+                $push: { followedUsers: req.body.userToFollow },
+            },
+        )
+        res.send("Successfully followed user")
+    } catch (err) {
+        console.error(err)
+        res.status(500).send('Error following user')
+    }
+}
+
+const unfollowUser = async (req, res) => {
+    try {
+        await User.findOneAndUpdate(
+            { _id: req.body.id },
+            {
+                $pull: { followedUsers: req.body.userToFollow },
+            },
+        )
+        res.send("Successfully unfollowed user")
+    } catch (err) {
+        console.error(err)
+        res.status(500).send('Error unfollowing user')
+    }
+}
+
+module.exports = { signupUser, loginUser, getUserInfo, followUser, unfollowUser }

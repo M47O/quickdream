@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import apiUrl from './api'
 import HomePage from './pages/HomePage'
 import AuthPage from './pages/AuthPage'
 import ProfilePage from './pages/ProfilePage'
@@ -39,7 +38,7 @@ function App() {
             <Route path="/" element={<HomePage loggedInUser={loggedInUser} />} />
             <Route path="/auth" element={<AuthPage loggedInUser={loggedInUser} handleLogin={handleLogin} />} />
             <Route path="/profile" element={<ProfilePage loggedInUser={loggedInUser} />} />
-            <Route path="/profile/:id" element={<ProfileByIdPage loggedInUser={loggedInUser} />} />
+            <Route path="/profile/:id" element={<ProfileByIdPage loggedInUser={loggedInUser} updateUser={handleLogin} />} />
             <Route path="/feed" element={<FeedPage loggedInUser={loggedInUser} />} />
           </Routes>
         </main>

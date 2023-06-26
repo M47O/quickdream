@@ -1,37 +1,44 @@
 .profile {
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
 }
 
-.profilePosts{
-    display: flex;
-    position: relative;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: 3px 3px hsl(340, 31%, 90%), 3px 3px 12px hsl(340, 31%, 92%), 3px 3px 16px hsl(340, 31%, 93%);
-    padding: 10px;
+.profile__buttonContainer {
+  position: absolute;
+  top: 10px;
+  left: 10px;
 }
 
-.profilePosts__iconContainer{
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    background: var(--color-bg);
-    border: 2px solid hsl(340, 31%, 90%);
-    box-shadow: 3px 3px hsl(340, 31%, 90%), 3px 3px 12px hsl(340, 31%, 92%), 3px 3px 16px hsl(340, 31%, 93%);
-    border-radius: 100%;
+.profilePosts {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 3px 3px hsl(340, 31%, 90%), 3px 3px 12px hsl(340, 31%, 92%),
+    3px 3px 16px hsl(340, 31%, 93%);
+  padding: 10px;
+}
+
+.profilePosts__iconContainer {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  background: var(--color-bg);
+  border: 2px solid hsl(340, 31%, 90%);
+  box-shadow: 3px 3px hsl(340, 31%, 90%), 3px 3px 12px hsl(340, 31%, 92%),
+    3px 3px 16px hsl(340, 31%, 93%);
+  border-radius: 100%;
 }
 
 .profilePosts__heading {
-    margin-bottom: 16px;
-    font-size: 1.2rem;
+  margin-bottom: 16px;
+  font-size: 1.2rem;
 }
 
 .profilePosts__noPostMessage {
-    text-align: center;
-    margin-top: 10px;
-    max-width: 330px;
-    font-size: 1.1rem;
+  text-align: center;
+  margin-top: 10px;
+  max-width: 330px;
+  font-size: 1.1rem;
 }
