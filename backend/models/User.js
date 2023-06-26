@@ -6,9 +6,11 @@ const userSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     avatar: { type: String, required: true },
-    friends: { type: Array, required: true },
-    likedPosts: { type: Array, required: true },
-    bookmarkedPosts: { type: Array, required: true },
+    followedUser: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'User',
+        default: [],
+    },
 })
 
 //static SIGNUP method
