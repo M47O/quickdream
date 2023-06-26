@@ -42,8 +42,6 @@ export default function FeedPage({ loggedInUser }) {
         }
     }, [allPosts]);
 
-    console.log(allPosts)
-
     function selectFeed(feed) {
         setSelectedFeed(feed)
     }
@@ -59,8 +57,6 @@ export default function FeedPage({ loggedInUser }) {
     function updateAllPosts(updatedPosts) {
         setAllPosts(updatedPosts)
     }
-
-
 
     return (
         <div className="feed">
