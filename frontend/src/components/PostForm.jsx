@@ -119,7 +119,7 @@ export default function PostForm({ loggedInUser, onCreatePost, showForm, close }
         } else if (loggedInUser) {
             createPost()
         } else {
-            console.log(errors, `User is: ${loggedInUser}`)
+            console.warn(errors, `User is: ${loggedInUser}`)
         }
     }
 

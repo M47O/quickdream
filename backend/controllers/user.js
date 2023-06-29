@@ -65,7 +65,6 @@ const getUserInfo = async (req, res) => {
 
 const followUser = async (req, res) => {
     try {
-        console.log(req.body)
         await User.findOneAndUpdate(
             { _id: req.body.id },
             {

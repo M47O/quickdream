@@ -19,8 +19,6 @@ export default function FeedPage({ loggedInUser }) {
     const [showSelectedPost, setShowSelectedPost] = useState(false)
     const [selectedFeed, setSelectedFeed] = useState("all")
 
-    console.log(allPosts[0])
-
     async function fetchPosts() {
         try {
             const response = await fetch(`${apiUrl}/api/post/all`);
