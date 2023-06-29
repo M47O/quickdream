@@ -90,7 +90,9 @@ export default function FeedPage({ loggedInUser }) {
                     <BookmarkIcon />
                 </span>
             </div>}
+
             <section className="feedPosts">
+                <h1>{selectedFeed[0].toUpperCase() + selectedFeed.slice(1)}</h1>
                 {!loggedInUser && <p style={{ marginBottom: '10px', textAlign: 'center' }}>Log in to interact with posts <br /> and view your personalized feed</p>}
                 <div className="postGrid postGrid--feed">
 
@@ -180,7 +182,6 @@ export default function FeedPage({ loggedInUser }) {
                     )) : <p className="postGrid__noPostDisclaimer">You haven't followed anyone! <br /> Visit someone's profile by clicking a post, then clicking their username, and finally clicking the "follow user" button.</p>)}
                 </div>
 
-
                 <SelectedPostDialog
                     close={() => {
                         setShowSelectedPost(false)
@@ -203,6 +204,5 @@ export default function FeedPage({ loggedInUser }) {
                 />
             </section >
         </div >
-
     )
 }
