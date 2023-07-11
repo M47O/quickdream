@@ -11,7 +11,7 @@ Quickdream is a full-stack social media app created to explore the capabilities 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/b3d0599e-49d2-4be3-a0f7-158f16bd0110/deploy-status)](https://app.netlify.com/sites/quickdream/deploys) [![Railway - Online](https://img.shields.io/static/v1?label=Railway&message=Online&color=bef9c6&logo=Railway)](https://quickdream-production.up.railway.app/)
 
 
-**Link to project:** https://quickdream.netlify.app/
+**Link to project:** [Check it out here!](https://quickdream.netlify.app/)
 
 ## How It's Made:
 
