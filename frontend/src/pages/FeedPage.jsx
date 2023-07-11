@@ -92,7 +92,7 @@ export default function FeedPage({ loggedInUser }) {
             </div>}
 
             <section className="feedPosts">
-                <h1>{selectedFeed[0].toUpperCase() + selectedFeed.slice(1)}</h1>
+                {loggedInUser && <h1>{selectedFeed[0].toUpperCase() + selectedFeed.slice(1)}</h1>}
                 {!loggedInUser && <p style={{ marginBottom: '10px', textAlign: 'center' }}>Log in to interact with posts <br /> and view your personalized feed</p>}
                 <div className="postGrid postGrid--feed">
 
