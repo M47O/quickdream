@@ -8,6 +8,7 @@ const connectDB = require("./config/database")
 
 const userRoutes = require('./routes/user')
 const postRoutes = require('./routes/post')
+const commentRoutes = require('./routes/comment')
 
 app.use(cors({ origin: '*' }))
 
@@ -21,6 +22,7 @@ app.use(logger("dev"));
 // Routes // 
 app.use('/api/user', userRoutes)
 app.use('/api/post', postRoutes)
+app.use('/api/comment', commentRoutes)
 
 
 app.listen(process.env.PORT, console.log(`Server running on port ${process.env.PORT}`))
