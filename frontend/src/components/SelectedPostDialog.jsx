@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import apiUrl from '../api'
 import { Dialog, DialogTitle, DialogContent, IconButton, Divider, Button } from '@mui/material'
+import CommentsSection from './CommentsSection'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import MenuIcon from '@mui/icons-material/Menu'
+import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import './css/PostDialog.css'
 
 export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, author, displayedPosts, setDisplayedPosts, bookmarkedPosts, likedPosts, allPosts, updateBookmarkedPosts, updateLikedPosts, updateAllPosts }) {
@@ -15,6 +18,8 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
     const [showMenu, setShowMenu] = useState(false)
     const [showPrompt, setShowPrompt] = useState(false)
     const [showConfirmDelete, setShowConfirmDelete] = useState(false)
+    const [showComments, setShowComments] = useState(false)
+    const [postComments, setPostComments] = useState(null)
 
     const params = useParams()
 
@@ -172,6 +177,18 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
         setTimeout(() => setShowPrompt(false), 6000)
     }
 
+    const fetchComments = async () => {
+        if (postComments === null) {
+            try {
+                const response = await fetch(`${apiUrl}/api/comment/${post._id}`)
+                const allComments = await response.json()
+                setPostComments(allComments)
+            } catch (err) {
+                console.error("Error fetching comments: ", err)
+            }
+        }
+    }
+
     return (
         post && (
             <Dialog
@@ -181,6 +198,8 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
                     setShowMenu(false)
                     setIsLiked(false)
                     setIsBookmarked(false)
+                    setShowComments(false)
+                    setPostComments(null)
                 }}
             >
                 <DialogTitle
@@ -280,6 +299,12 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
                             {author.username}
                         </Link>
                         <div className="selectedDialog__infoRight">
+                            <IconButton onClick={() => {
+                                fetchComments()
+                                setShowComments(prevShowComments => !prevShowComments)
+                            }}>
+                                {showComments ? <ChatBubbleIcon style={{ color: "var(--color-font-primary)" }} /> : <ChatBubbleOutlineIcon style={{ color: "var(--color-font-primary)" }} />}
+                            </IconButton>
                             <div className="selectedDialog__likesContainer">
                                 <IconButton onClick={isLiked ? handleUnlike : handleLike}>
                                     {isLiked ? <FavoriteIcon sx={{ color: 'red' }} /> : <FavoriteBorderIcon sx={{ color: 'red' }} />}
@@ -291,6 +316,16 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
                             </IconButton>
                         </div>
                     </div>
+
+                    {showComments && (
+                        <CommentsSection
+                            comments={postComments}
+                            post={post}
+                            setComments={setPostComments}
+                            loggedInUser={loggedInUser}
+                            close={close}
+                        />
+                    )}
                 </DialogContent>
             </Dialog >
         )
