@@ -8,7 +8,6 @@ export default function Comment({ author, createdAt, message, post, id, close, l
     const datePosted = new Date(createdAt).toLocaleDateString()
     const timePosted = new Date(createdAt).toLocaleTimeString()
     const currentDate = new Date().toLocaleDateString()
-    console.log(comments)
 
     const handleDelete = () => {
         try {
