@@ -1,0 +1,43 @@
+.comment {
+	position: relative;
+	border: 2px solid var(--color-font-primary);
+	border-radius: 6px;
+	font-size: 13px;
+	padding: 25px 15px 15px 15px;
+	margin-bottom: 25px;
+}
+.comment__user {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	gap: 3px;
+	top: -15px;
+	left: 5px;
+	background: white;
+	padding: 2px 10px;
+	border-radius: 6px;
+	border: 2px solid var(--color-font-primary);
+}
+
+.comment__user a {
+	text-decoration: none;
+	color: var(--color-font-primary);
+}
+
+.comment__date {
+	position: absolute;
+	bottom: -15px;
+	right: 5px;
+	background: white;
+	padding: 2px 10px;
+	border-radius: 6px;
+	border: 2px solid var(--color-font-primary);
+
+	color: var(--color-font-primary);
+}
+
+.comment__deleteContainer {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
