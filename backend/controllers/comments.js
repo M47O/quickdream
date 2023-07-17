@@ -19,6 +19,17 @@ const deleteComment = async (req, res) => {
     try {
         await Comment.deleteOne({ _id: req.body.id })
         res.status(202).send('Comment deleted successfully')
+        console.log("Comment")
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const deletePostComments = async (req, res) => {
+    try {
+        await Comment.deleteMany({ post: req.body.post })
+        res.status(202).send('Comment deleted successfully')
+        console.log(`All comments on ${req.body.post} deleted successfully.`)
     } catch (err) {
         console.log(err)
     }
@@ -37,5 +48,6 @@ const getComments = async (req, res) => {
 module.exports = {
     createComment,
     deleteComment,
+    deletePostComments,
     getComments
 }
