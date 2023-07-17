@@ -164,6 +164,17 @@ export default function SelectedPostDialog({ isOpen, post, close, loggedInUser, 
                 },
             })
 
+            const deleteComments = fetch(`${apiUrl}/api/comment/deletePost`, {
+                method: "DELETE",
+                body: JSON.stringify({
+                    post: post._id
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${loggedInUser.token}`,
+                },
+            })
+
             close()
             setDisplayedPosts(displayedPosts.filter(p => p._id !== post._id))
         } catch (err) {
