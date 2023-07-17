@@ -1,54 +1,53 @@
-.postForm{
-    display: flex;
-    flex-direction: column;
-    gap: 26px;
-    background: #F5ECEF;
-    padding: 60px 60px 30px 60px;
+.postForm {
+	display: flex;
+	flex-direction: column;
+	gap: 26px;
+	background: #f5ecef;
+	padding: 60px 60px 30px 60px;
 
-    max-width: 420px;
-    box-shadow: 3px 3px hsl(340, 31%, 90%), 3px 3px 12px hsl(340, 31%, 92%), 3px 3px 16px hsl(340, 31%, 93%);
-    border-radius: 6px;
+	max-width: 420px;
+	box-shadow: 3px 3px hsl(340, 31%, 90%), 3px 3px 12px hsl(340, 31%, 92%),
+		3px 3px 16px hsl(340, 31%, 93%);
+	border-radius: 6px;
 }
 
-.postForm__closeContainer{
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    border-radius: 100%;
+.postForm__closeContainer {
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	border-radius: 100%;
 }
 
-.postForm__bottomContainer{
-    display: flex;
-    flex-direction: column;
+.postForm__bottomContainer {
+	display: flex;
+	flex-direction: column;
 }
 
-.postForm__loadingDisclaimer{
-    visiblity: hidden;
-    text-align: center;
-    color: rgba(0, 0, 0, 0.0);
-    font-size: 0.77rem;
-    margin-top: 5px;
+.postForm__loadingDisclaimer {
+	visiblity: hidden;
+	text-align: center;
+	color: rgba(0, 0, 0, 0);
+	font-size: 0.77rem;
+	margin-top: 5px;
 }
 
-.postForm__loadingDisclaimer--visible{
-    visiblity: visible;
-    color: rgba(0, 0, 0, 0.5);
-    transition: color 1100ms
+.postForm__loadingDisclaimer--visible {
+	visiblity: visible;
+	color: rgba(0, 0, 0, 0.5);
+	transition: color 1100ms;
 }
-
-
 
 /* Small */
 @media screen and (max-width: 640px) {
-    .postForm {
-        padding: 40px 40px 15px 40px;
-    }
-    .postForm__closeContainer{
-        position: absolute;
-        top: 0px;
-        right: 0px;
-    }
-    .postForm {
-        padding: 40px 40px 15px 40px;
-    }
+	.postForm {
+		padding: 40px 40px 15px 40px;
+	}
+	.postForm__closeContainer {
+		position: absolute;
+		top: 0px;
+		right: 0px;
+	}
+	.postForm {
+		padding: 40px 40px 15px 40px;
+	}
 }
