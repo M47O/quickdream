@@ -173,7 +173,8 @@ const deletePost = async (req, res) => {
         await cloudinary.uploader.destroy(post.cloudinaryId)
         //Delete from db
         await Post.deleteOne({ _id: req.body.id })
-        console.log("Deleted post")
+        console.log(`Deleted post ${req.body.id} successfully.`)
+        res.status(202).send('Post deleted successfully')
     } catch (err) {
         console.log(err)
     }
