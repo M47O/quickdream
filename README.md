@@ -2,8 +2,6 @@
 # Quickdream
 Quickdream is a full-stack social media app created to explore the capabilities of AI image generation and OpenAI's public API in general. Users are able to enter a prompt and have an image generated based on that prompt. These images are then shared on the Quickdream platform, where users can follow each other, like and comment on images, and discover new and interesting prompts to try. 
 
-**The app has just entered the minimum viable product stage, so some promised features are still being built out.** 
-
 <p align="center">
 <img src="quickdream-demo.gif" alt="Demo of the Quickdream site">
 </p>
