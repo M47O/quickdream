@@ -11,6 +11,27 @@ Quickdream is a full-stack social media app created to explore the capabilities 
 
 **Link to project:** [Check it out here!](https://quickdream.netlify.app/)
 
+## How To Install/Run:
+  **Prerequisites:**
+  - Node ~v18 *(v22 not currently supported)* + npm 
+    - I recommend using a Node environment manager such as [nvm](https://github.com/nvm-sh/nvm)/[nvm-windows](https://github.com/coreybutler/nvm-windows), [n](https://github.com/tj/n), or [FNM](https://github.com/Schniz/fnm) to install different versions of Node. This makes switching between versions *very* easy.
+  - [MongoDB account](https://www.mongodb.com/) and an Atlas database with an accessible connection string
+  - [Cloudinary account](https://www.cloudinary.com)
+  - [OpenAI account](https://platform.openai.com/docs/overview)
+---
+
+  1. Clone the repo down
+  2. Execute `npm install` (need to be using Node 18 - not 22)
+  3. Create a .env file the in backend/config directory.
+  4. Add the following secret key-value pairs to the .env file:
+     - PORT = 8080 (or any port you'd like to use)
+     - CLOUD_NAME = `your Cloudinary project's cloud name, visible in SETTINGS -> API Keys -> top of the page`
+     - CLOUD_API_SECRET = `Cloudinary API secret, visible in SETTINGS -> API Keys`
+     - CLOUD_API_KEY = `Cloudinary API key, visible in SETTINGS -> API Keys`
+     - DB_STRING = `your MongoDB connection string` [(Instructions on how to find this)](https://www.mongodb.com/resources/products/fundamentals/mongodb-connection-string)
+     - OPENAI_API_KEY = `your openai api key` [(Can be found here)](https://platform.openai.com/settings/organization/api-keys)
+     - JWT_SECRET = `this can be any value you want` [(Quick primer on JWT secret generation)](https://stackoverflow.com/questions/31309759/what-is-secret-key-for-jwt-based-authentication-and-how-to-generate-it)
+
 ## How It's Made:
 
 **Tech used:** HTML, CSS, JavaScript, React, Vite, MUI, Express, MongoDB, JSON Web Tokens
