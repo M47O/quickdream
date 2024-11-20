@@ -21,7 +21,7 @@ Quickdream is a full-stack social media app created to explore the capabilities 
 ---
 
   1. Clone the repo down
-  2. Execute `npm install` (need to be using Node 18 - not 22)
+  2. Execute `npm install` (need to be using Node 18 - not 22) in both the backend and frontend directories
   3. Create a .env file the in backend/config directory.
   4. Add the following secret key-value pairs to the .env file:
      - PORT = 8080 (or any port you'd like to use)
@@ -31,6 +31,8 @@ Quickdream is a full-stack social media app created to explore the capabilities 
      - DB_STRING = `your MongoDB connection string` [(Instructions on how to find this)](https://www.mongodb.com/resources/products/fundamentals/mongodb-connection-string)
      - OPENAI_API_KEY = `your openai api key` [(Can be found here)](https://platform.openai.com/settings/organization/api-keys)
      - JWT_SECRET = `this can be any value you want` [(Quick primer on JWT secret generation)](https://stackoverflow.com/questions/31309759/what-is-secret-key-for-jwt-based-authentication-and-how-to-generate-it)
+   5. `cd` into the backend directory and execute `npm run start` to run the server
+   6. `cd` into the frontend directory and execute `npm run dev` to run Vite's development server, accessible at `localhost:5173` in the browser
 
 ## How It's Made:
 
